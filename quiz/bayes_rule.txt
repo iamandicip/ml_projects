@@ -1,0 +1,35 @@
+p = test is positive
+s = patient has "spleentitis"
+
+P(p|s) = 0.98
+P(^p|s) = 1 - P(p|s) = 0.02
+
+P(^p|^s) = 0.97
+P(p|^s) = 1 - P(^p|^s) = 0.03
+
+P(s) = 0.008
+p(^s) = 1 - P(s) = 0.992
+
+P(s|p) = (P(p|s) * P(s)) / (P(p|s) * P(p) + P(p|^s) * P(^s))
+
+0.98 * 0.008 / (0.98 * 0.008 + 0.03 * 0.992)
+= 0.00784 / (0.00784 + 0.276)
+= 0.00784 / 0.28384
+= 0.0276
+
+P(A|B) = P(B|A)*P(A)/P(B)
+
+Or in our case
+
+P(a certain word|surrounding words) = P(surrounding words|a certain word)*P(a certain word) / P(surrounding words)
+
+So if you could just go ahead and pack up your stuff and move it down there, that would be terrific, OK?
+P(you) = 1/22
+P(if) = 1/22
+P(you|if) = P(if|you) * P(you) / P(if)
+
+0.4 * 0.6
+0.3 * 0.8
+0.3 * 1
+
+0.4 * 0.4 + 0.3 * 0.8
