@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Titanic_Survival_Exploration</title>
+<title>student_intervention</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11751,8 +11751,18 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Machine-Learning-Engineer-Nanodegree">Machine Learning Engineer Nanodegree<a class="anchor-link" href="#Machine-Learning-Engineer-Nanodegree">&#182;</a></h1><h2 id="Introduction-and-Foundations">Introduction and Foundations<a class="anchor-link" href="#Introduction-and-Foundations">&#182;</a></h2><h2 id="Project-0:-Titanic-Survival-Exploration">Project 0: Titanic Survival Exploration<a class="anchor-link" href="#Project-0:-Titanic-Survival-Exploration">&#182;</a></h2><p>In 1912, the ship RMS Titanic struck an iceberg on its maiden voyage and sank, resulting in the deaths of most of its passengers and crew. In this introductory project, we will explore a subset of the RMS Titanic passenger manifest to determine which features best predict whether someone survived or did not survive. To complete this project, you will need to implement several conditional predictions and answer the questions below. Your project submission will be evaluated based on the completion of the code and your responses to the questions.</p>
-<blockquote><p><strong>Tip:</strong> Quoted sections like this will provide helpful instructions on how to navigate and use an iPython notebook.</p>
+<h1 id="Machine-Learning-Engineer-Nanodegree">Machine Learning Engineer Nanodegree<a class="anchor-link" href="#Machine-Learning-Engineer-Nanodegree">&#182;</a></h1><h2 id="Supervised-Learning">Supervised Learning<a class="anchor-link" href="#Supervised-Learning">&#182;</a></h2><h2 id="Project:-Building-a-Student-Intervention-System">Project: Building a Student Intervention System<a class="anchor-link" href="#Project:-Building-a-Student-Intervention-System">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Welcome to the second project of the Machine Learning Engineer Nanodegree! In this notebook, some template code has already been provided for you, and it will be your job to implement the additional functionality necessary to successfully complete this project. Sections that begin with <strong>'Implementation'</strong> in the header indicate that the following block of code will require additional functionality which you must provide. Instructions will be provided for each section and the specifics of the implementation are marked in the code block with a <code>'TODO'</code> statement. Please be sure to read the instructions carefully!</p>
+<p>In addition to implementing code, there will be questions that you must answer which relate to the project and your implementation. Each section where you will answer a question is preceded by a <strong>'Question X'</strong> header. Carefully read each question and provide thorough answers in the following text boxes that begin with <strong>'Answer:'</strong>. Your project submission will be evaluated based on your answers to each of the questions and the implementation you provide.</p>
+<blockquote><p><strong>Note:</strong> Code and Markdown cells can be executed using the <strong>Shift + Enter</strong> keyboard shortcut. In addition, Markdown cells can be edited by typically double-clicking the cell to enter edit mode.</p>
 </blockquote>
 
 </div>
@@ -11763,10 +11773,28 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Getting-Started">Getting Started<a class="anchor-link" href="#Getting-Started">&#182;</a></h1><p>To begin working with the RMS Titanic passenger data, we'll first need to <code>import</code> the functionality we need, and load our data into a <code>pandas</code> DataFrame.<br>
-Run the code cell below to load our data and display the first few entries (passengers) for examination using the <code>.head()</code> function.</p>
-<blockquote><p><strong>Tip:</strong> You can run a code cell by clicking on the cell and using the keyboard shortcut <strong>Shift + Enter</strong> or <strong>Shift + Return</strong>. Alternatively, a code cell can be executed using the <strong>Play</strong> button in the hotbar after selecting it. Markdown cells (text cells like this one) can be edited by double-clicking, and saved using these same shortcuts. <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> allows you to write easy-to-read plain text that can be converted to HTML.</p>
-</blockquote>
+<h3 id="Question-1---Classification-vs.-Regression">Question 1 - Classification vs. Regression<a class="anchor-link" href="#Question-1---Classification-vs.-Regression">&#182;</a></h3><p><em>Your goal for this project is to identify students who might need early intervention before they fail to graduate. Which type of supervised learning problem is this, classification or regression? Why?</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer: </strong></p>
+<p>It's a classification problem, because we want to categorize students into one of 2 categories: "pass", "fail".</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exploring-the-Data">Exploring the Data<a class="anchor-link" href="#Exploring-the-Data">&#182;</a></h2><p>Run the code cell below to load necessary Python libraries and load the student data. Note that the last column from this dataset, <code>'passed'</code>, will be our target label (whether the student graduated or didn't graduate). All other columns are features about each student.</p>
 
 </div>
 </div>
@@ -11776,20 +11804,15 @@ Run the code cell below to load our data and display the first few entries (pass
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import libraries</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span>
 
-<span class="c1"># RMS Titanic data visualization code </span>
-<span class="kn">from</span> <span class="nn">titanic_visualizations</span> <span class="kn">import</span> <span class="n">survival_stats</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-
-<span class="c1"># Load the dataset</span>
-<span class="n">in_file</span> <span class="o">=</span> <span class="s1">&#39;titanic_data.csv&#39;</span>
-<span class="n">full_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
-
-<span class="c1"># Print the first few entries of the RMS Titanic data</span>
-<span class="n">display</span><span class="p">(</span><span class="n">full_data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="c1"># Read student data</span>
+<span class="n">student_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;student-data.csv&quot;</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Student data read successfully!&quot;</span>
 </pre></div>
 
 </div>
@@ -11801,108 +11824,10 @@ Run the code cell below to load our data and display the first few entries (pass
 
 
 <div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>PassengerId</th>
-      <th>Survived</th>
-      <th>Pclass</th>
-      <th>Name</th>
-      <th>Sex</th>
-      <th>Age</th>
-      <th>SibSp</th>
-      <th>Parch</th>
-      <th>Ticket</th>
-      <th>Fare</th>
-      <th>Cabin</th>
-      <th>Embarked</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Braund, Mr. Owen Harris</td>
-      <td>male</td>
-      <td>22.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>A/5 21171</td>
-      <td>7.2500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2</td>
-      <td>1</td>
-      <td>1</td>
-      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
-      <td>female</td>
-      <td>38.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>PC 17599</td>
-      <td>71.2833</td>
-      <td>C85</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>3</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Heikkinen, Miss. Laina</td>
-      <td>female</td>
-      <td>26.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>STON/O2. 3101282</td>
-      <td>7.9250</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>4</td>
-      <td>1</td>
-      <td>1</td>
-      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
-      <td>female</td>
-      <td>35.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>113803</td>
-      <td>53.1000</td>
-      <td>C123</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>5</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Allen, Mr. William Henry</td>
-      <td>male</td>
-      <td>35.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>373450</td>
-      <td>8.0500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-  </tbody>
-</table>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Student data read successfully!
+</pre>
 </div>
-</div>
-
 </div>
 
 </div>
@@ -11914,22 +11839,14 @@ Run the code cell below to load our data and display the first few entries (pass
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>From a sample of the RMS Titanic data, we can see the various features present for each passenger on the ship:</p>
+<h3 id="Implementation:-Data-Exploration">Implementation: Data Exploration<a class="anchor-link" href="#Implementation:-Data-Exploration">&#182;</a></h3><p>Let's begin by investigating the dataset to determine how many students we have information on, and learn about the graduation rate among these students. In the code cell below, you will need to compute the following:</p>
 <ul>
-<li><strong>Survived</strong>: Outcome of survival (0 = No; 1 = Yes)</li>
-<li><strong>Pclass</strong>: Socio-economic class (1 = Upper class; 2 = Middle class; 3 = Lower class)</li>
-<li><strong>Name</strong>: Name of passenger</li>
-<li><strong>Sex</strong>: Sex of the passenger</li>
-<li><strong>Age</strong>: Age of the passenger (Some entries contain <code>NaN</code>)</li>
-<li><strong>SibSp</strong>: Number of siblings and spouses of the passenger aboard</li>
-<li><strong>Parch</strong>: Number of parents and children of the passenger aboard</li>
-<li><strong>Ticket</strong>: Ticket number of the passenger</li>
-<li><strong>Fare</strong>: Fare paid by the passenger</li>
-<li><strong>Cabin</strong> Cabin number of the passenger (Some entries contain <code>NaN</code>)</li>
-<li><strong>Embarked</strong>: Port of embarkation of the passenger (C = Cherbourg; Q = Queenstown; S = Southampton)</li>
+<li>The total number of students, <code>n_students</code>.</li>
+<li>The total number of features for each student, <code>n_features</code>.</li>
+<li>The number of those students who passed, <code>n_passed</code>.</li>
+<li>The number of those students who failed, <code>n_failed</code>.</li>
+<li>The graduation rate of the class, <code>grad_rate</code>, in percent (%).</li>
 </ul>
-<p>Since we're interested in the outcome of survival for each passenger or crew member, we can remove the <strong>Survived</strong> feature from this dataset and store it as its own separate variable <code>outcomes</code>. We will use these outcomes as our prediction targets.<br>
-Run the code cell below to remove <strong>Survived</strong> as a feature of the dataset and store it in <code>outcomes</code>.</p>
 
 </div>
 </div>
@@ -11939,12 +11856,7 @@ Run the code cell below to remove <strong>Survived</strong> as a feature of the 
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Store the &#39;Survived&#39; feature in a new variable and remove it from the dataset</span>
-<span class="n">outcomes</span> <span class="o">=</span> <span class="n">full_data</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">]</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">full_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Show the new dataset with &#39;Survived&#39; removed</span>
-<span class="n">display</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">student_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11955,100 +11867,161 @@ Run the code cell below to remove <strong>Survived</strong> as a feature of the 
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area"><div class="prompt output_prompt">Out[2]:</div>
 
-<div class="output_html rendered_html output_subarea ">
+<div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>PassengerId</th>
-      <th>Pclass</th>
-      <th>Name</th>
-      <th>Sex</th>
-      <th>Age</th>
-      <th>SibSp</th>
-      <th>Parch</th>
-      <th>Ticket</th>
-      <th>Fare</th>
-      <th>Cabin</th>
-      <th>Embarked</th>
+      <th>school</th>
+      <th>sex</th>
+      <th>age</th>
+      <th>address</th>
+      <th>famsize</th>
+      <th>Pstatus</th>
+      <th>Medu</th>
+      <th>Fedu</th>
+      <th>Mjob</th>
+      <th>Fjob</th>
+      <th>...</th>
+      <th>internet</th>
+      <th>romantic</th>
+      <th>famrel</th>
+      <th>freetime</th>
+      <th>goout</th>
+      <th>Dalc</th>
+      <th>Walc</th>
+      <th>health</th>
+      <th>absences</th>
+      <th>passed</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
+      <td>GP</td>
+      <td>F</td>
+      <td>18</td>
+      <td>U</td>
+      <td>GT3</td>
+      <td>A</td>
+      <td>4</td>
+      <td>4</td>
+      <td>at_home</td>
+      <td>teacher</td>
+      <td>...</td>
+      <td>no</td>
+      <td>no</td>
+      <td>4</td>
+      <td>3</td>
+      <td>4</td>
+      <td>1</td>
       <td>1</td>
       <td>3</td>
-      <td>Braund, Mr. Owen Harris</td>
-      <td>male</td>
-      <td>22.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>A/5 21171</td>
-      <td>7.2500</td>
-      <td>NaN</td>
-      <td>S</td>
+      <td>6</td>
+      <td>no</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2</td>
+      <td>GP</td>
+      <td>F</td>
+      <td>17</td>
+      <td>U</td>
+      <td>GT3</td>
+      <td>T</td>
       <td>1</td>
-      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
-      <td>female</td>
-      <td>38.0</td>
       <td>1</td>
-      <td>0</td>
-      <td>PC 17599</td>
-      <td>71.2833</td>
-      <td>C85</td>
-      <td>C</td>
+      <td>at_home</td>
+      <td>other</td>
+      <td>...</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>5</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>4</td>
+      <td>no</td>
     </tr>
     <tr>
       <th>2</th>
+      <td>GP</td>
+      <td>F</td>
+      <td>15</td>
+      <td>U</td>
+      <td>LE3</td>
+      <td>T</td>
+      <td>1</td>
+      <td>1</td>
+      <td>at_home</td>
+      <td>other</td>
+      <td>...</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
       <td>3</td>
       <td>3</td>
-      <td>Heikkinen, Miss. Laina</td>
-      <td>female</td>
-      <td>26.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>STON/O2. 3101282</td>
-      <td>7.9250</td>
-      <td>NaN</td>
-      <td>S</td>
+      <td>10</td>
+      <td>yes</td>
     </tr>
     <tr>
       <th>3</th>
+      <td>GP</td>
+      <td>F</td>
+      <td>15</td>
+      <td>U</td>
+      <td>GT3</td>
+      <td>T</td>
       <td>4</td>
+      <td>2</td>
+      <td>health</td>
+      <td>services</td>
+      <td>...</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
       <td>1</td>
-      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
-      <td>female</td>
-      <td>35.0</td>
       <td>1</td>
-      <td>0</td>
-      <td>113803</td>
-      <td>53.1000</td>
-      <td>C123</td>
-      <td>S</td>
+      <td>5</td>
+      <td>2</td>
+      <td>yes</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>5</td>
+      <td>GP</td>
+      <td>F</td>
+      <td>16</td>
+      <td>U</td>
+      <td>GT3</td>
+      <td>T</td>
       <td>3</td>
-      <td>Allen, Mr. William Henry</td>
-      <td>male</td>
-      <td>35.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>373450</td>
-      <td>8.0500</td>
-      <td>NaN</td>
-      <td>S</td>
+      <td>3</td>
+      <td>other</td>
+      <td>other</td>
+      <td>...</td>
+      <td>no</td>
+      <td>no</td>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>5</td>
+      <td>4</td>
+      <td>yes</td>
     </tr>
   </tbody>
 </table>
+<p>5 rows × 31 columns</p>
 </div>
 </div>
 
@@ -12057,39 +12030,33 @@ Run the code cell below to remove <strong>Survived</strong> as a feature of the 
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The very same sample of the RMS Titanic data now shows the <strong>Survived</strong> feature removed from the DataFrame. Note that <code>data</code> (the passenger data) and <code>outcomes</code> (the outcomes of survival) are now <em>paired</em>. That means for any passenger <code>data.loc[i]</code>, they have the survival outcome <code>outcome[i]</code>.</p>
-<p>To measure the performance of our predictions, we need a metric to score our predictions against the true outcomes of survival. Since we are interested in how <em>accurate</em> our predictions are, we will calculate the proportion of passengers where our prediction of their survival is correct. Run the code cell below to create our <code>accuracy_score</code> function and test a prediction on the first five passengers.</p>
-<p><strong>Think:</strong> <em>Out of the first five passengers, if we predict that all of them survived, what would you expect the accuracy of our predictions to be?</em></p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">accuracy_score</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">pred</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Returns accuracy score for input truth and predictions. &quot;&quot;&quot;</span>
-    
-    <span class="c1"># Ensure that the number of predictions matches number of outcomes</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">truth</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">):</span> 
-        
-        <span class="c1"># Calculate and return the accuracy as a percent</span>
-        <span class="k">return</span> <span class="s2">&quot;Predictions have an accuracy of {:.2f}%.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">truth</span> <span class="o">==</span> <span class="n">pred</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
-    
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;Number of predictions does not match number of outcomes!&quot;</span>
-    
-<span class="c1"># Test the &#39;accuracy_score&#39; function</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">))</span>
-<span class="k">print</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">outcomes</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="n">predictions</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Calculate number of students</span>
+<span class="n">n_students</span> <span class="o">=</span> <span class="n">student_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># TODO: Calculate number of features</span>
+<span class="n">n_features</span> <span class="o">=</span> <span class="n">student_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+<span class="c1"># TODO: Calculate passing students</span>
+<span class="n">n_passed</span> <span class="o">=</span> <span class="n">student_data</span><span class="p">[</span><span class="n">student_data</span><span class="p">[</span><span class="s1">&#39;passed&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;yes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># TODO: Calculate failing students</span>
+<span class="n">n_failed</span> <span class="o">=</span> <span class="n">student_data</span><span class="p">[</span><span class="n">student_data</span><span class="p">[</span><span class="s1">&#39;passed&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;no&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># TODO: Calculate graduation rate</span>
+<span class="n">grad_rate</span> <span class="o">=</span> <span class="nb">float</span> <span class="p">(</span><span class="n">n_passed</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_students</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Print the results</span>
+<span class="k">print</span> <span class="s2">&quot;Total number of students: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_students</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Number of features: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_features</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Number of students who passed: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_passed</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Number of students who failed: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_failed</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Graduation rate of the class: {:.2f}%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grad_rate</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12102,7 +12069,11 @@ Run the code cell below to remove <strong>Survived</strong> as a feature of the 
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Predictions have an accuracy of 60.00%.
+<pre>Total number of students: 395
+Number of features: 30
+Number of students who passed: 265
+Number of students who failed: 130
+Graduation rate of the class: 67.09%
 </pre>
 </div>
 </div>
@@ -12116,10 +12087,9 @@ Run the code cell below to remove <strong>Survived</strong> as a feature of the 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<blockquote><p><strong>Tip:</strong> If you save an iPython Notebook, the output from running code blocks will also be saved. However, the state of your workspace will be reset once a new session is started. Make sure that you run all of the code blocks from your previous session to reestablish variables and functions before picking up where you last left off.</p>
-</blockquote>
-<h1 id="Making-Predictions">Making Predictions<a class="anchor-link" href="#Making-Predictions">&#182;</a></h1><p>If we were asked to make a prediction about any passenger aboard the RMS Titanic whom we knew nothing about, then the best prediction we could make would be that they did not survive. This is because we can assume that a majority of the passengers (more than 50%) did not survive the ship sinking.<br>
-The <code>predictions_0</code> function below will always predict that a passenger did not survive.</p>
+<h2 id="Preparing-the-Data">Preparing the Data<a class="anchor-link" href="#Preparing-the-Data">&#182;</a></h2><p>In this section, we will prepare the data for modeling, training and testing.</p>
+<h3 id="Identify-feature-and-target-columns">Identify feature and target columns<a class="anchor-link" href="#Identify-feature-and-target-columns">&#182;</a></h3><p>It is often the case that the data you obtain contains non-numeric features. This can be a problem, as most machine learning algorithms expect numeric data to perform computations with.</p>
+<p>Run the code cell below to separate the student data into feature and target columns to see if any features are non-numeric.</p>
 
 </div>
 </div>
@@ -12129,23 +12099,67 @@ The <code>predictions_0</code> function below will always predict that a passeng
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predictions_0</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Model with no features. Always predicts a passenger did not survive. &quot;&quot;&quot;</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Extract feature columns</span>
+<span class="n">feature_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">student_data</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
-    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">passenger</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-        
-        <span class="c1"># Predict the survival of &#39;passenger&#39;</span>
-        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    
-    <span class="c1"># Return our predictions</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+<span class="c1"># Extract target column &#39;passed&#39;</span>
+<span class="n">target_col</span> <span class="o">=</span> <span class="n">student_data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> 
 
-<span class="c1"># Make the predictions</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions_0</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># Show the list of columns</span>
+<span class="k">print</span> <span class="s2">&quot;Feature columns:</span><span class="se">\n</span><span class="s2">{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">feature_cols</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Target column: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_col</span><span class="p">)</span>
+
+<span class="c1"># Separate the data into feature data and target data (X_all and y_all, respectively)</span>
+<span class="n">X_all</span> <span class="o">=</span> <span class="n">student_data</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span>
+<span class="n">y_all</span> <span class="o">=</span> <span class="n">student_data</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span>
+
+<span class="c1"># Show the feature information by printing the first five rows</span>
+<span class="k">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Feature values:&quot;</span>
+<span class="k">print</span> <span class="n">X_all</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Feature columns:
+[&#39;school&#39;, &#39;sex&#39;, &#39;age&#39;, &#39;address&#39;, &#39;famsize&#39;, &#39;Pstatus&#39;, &#39;Medu&#39;, &#39;Fedu&#39;, &#39;Mjob&#39;, &#39;Fjob&#39;, &#39;reason&#39;, &#39;guardian&#39;, &#39;traveltime&#39;, &#39;studytime&#39;, &#39;failures&#39;, &#39;schoolsup&#39;, &#39;famsup&#39;, &#39;paid&#39;, &#39;activities&#39;, &#39;nursery&#39;, &#39;higher&#39;, &#39;internet&#39;, &#39;romantic&#39;, &#39;famrel&#39;, &#39;freetime&#39;, &#39;goout&#39;, &#39;Dalc&#39;, &#39;Walc&#39;, &#39;health&#39;, &#39;absences&#39;]
+
+Target column: passed
+
+Feature values:
+  school sex  age address famsize Pstatus  Medu  Fedu     Mjob      Fjob  \
+0     GP   F   18       U     GT3       A     4     4  at_home   teacher   
+1     GP   F   17       U     GT3       T     1     1  at_home     other   
+2     GP   F   15       U     LE3       T     1     1  at_home     other   
+3     GP   F   15       U     GT3       T     4     2   health  services   
+4     GP   F   16       U     GT3       T     3     3    other     other   
+
+    ...    higher internet  romantic  famrel  freetime goout Dalc Walc health  \
+0   ...       yes       no        no       4         3     4    1    1      3   
+1   ...       yes      yes        no       5         3     3    1    1      3   
+2   ...       yes      yes        no       4         3     2    2    3      3   
+3   ...       yes      yes       yes       3         2     2    1    1      5   
+4   ...       yes       no        no       4         3     2    1    2      5   
+
+  absences  
+0        6  
+1        4  
+2       10  
+3        2  
+4        4  
+
+[5 rows x 30 columns]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12155,8 +12169,9 @@ The <code>predictions_0</code> function below will always predict that a passeng
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Question-1">Question 1<a class="anchor-link" href="#Question-1">&#182;</a></h3><p><em>Using the RMS Titanic data, how accurate would a prediction be that none of the passengers survived?</em><br>
-<strong>Hint:</strong> Run the code cell below to see the accuracy of this prediction.</p>
+<h3 id="Preprocess-Feature-Columns">Preprocess Feature Columns<a class="anchor-link" href="#Preprocess-Feature-Columns">&#182;</a></h3><p>As you can see, there are several non-numeric columns that need to be converted! Many of them are simply <code>yes</code>/<code>no</code>, e.g. <code>internet</code>. These can be reasonably converted into <code>1</code>/<code>0</code> (binary) values.</p>
+<p>Other columns, like <code>Mjob</code> and <code>Fjob</code>, have more than two values, and are known as <em>categorical variables</em>. The recommended way to handle such a column is to create as many columns as possible values (e.g. <code>Fjob_teacher</code>, <code>Fjob_other</code>, <code>Fjob_services</code>, etc.), and assign a <code>1</code> to one of them and <code>0</code> to all others.</p>
+<p>These generated columns are sometimes called <em>dummy variables</em>, and we will use the <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html?highlight=get_dummies#pandas.get_dummies"><code>pandas.get_dummies()</code></a> function to perform this transformation. Run the code cell below to perform the preprocessing routine discussed in this section.</p>
 
 </div>
 </div>
@@ -12166,7 +12181,32 @@ The <code>predictions_0</code> function below will always predict that a passeng
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_features</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Preprocesses the student data and converts non-numeric binary variables into</span>
+<span class="sd">        binary (0/1) variables. Converts categorical variables into dummy variables. &#39;&#39;&#39;</span>
+    
+    <span class="c1"># Initialize new output DataFrame</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="c1"># Investigate each feature column for the data</span>
+    <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">col_data</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        
+        <span class="c1"># If data type is non-numeric, replace all yes/no values with 1/0</span>
+        <span class="k">if</span> <span class="n">col_data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+            <span class="n">col_data</span> <span class="o">=</span> <span class="n">col_data</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># If data type is categorical, convert to dummy variables</span>
+        <span class="k">if</span> <span class="n">col_data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+            <span class="c1"># Example: &#39;school&#39; =&gt; &#39;school_GP&#39; and &#39;school_MS&#39;</span>
+            <span class="n">col_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">col_data</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">col</span><span class="p">)</span>  
+        
+        <span class="c1"># Collect the revised columns</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">col_data</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="n">X_all</span> <span class="o">=</span> <span class="n">preprocess_features</span><span class="p">(</span><span class="n">X_all</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Processed feature columns ({} total features):</span><span class="se">\n</span><span class="s2">{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_all</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">X_all</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -12179,7 +12219,8 @@ The <code>predictions_0</code> function below will always predict that a passeng
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Predictions have an accuracy of 61.62%.
+<pre>Processed feature columns (48 total features):
+[&#39;school_GP&#39;, &#39;school_MS&#39;, &#39;sex_F&#39;, &#39;sex_M&#39;, &#39;age&#39;, &#39;address_R&#39;, &#39;address_U&#39;, &#39;famsize_GT3&#39;, &#39;famsize_LE3&#39;, &#39;Pstatus_A&#39;, &#39;Pstatus_T&#39;, &#39;Medu&#39;, &#39;Fedu&#39;, &#39;Mjob_at_home&#39;, &#39;Mjob_health&#39;, &#39;Mjob_other&#39;, &#39;Mjob_services&#39;, &#39;Mjob_teacher&#39;, &#39;Fjob_at_home&#39;, &#39;Fjob_health&#39;, &#39;Fjob_other&#39;, &#39;Fjob_services&#39;, &#39;Fjob_teacher&#39;, &#39;reason_course&#39;, &#39;reason_home&#39;, &#39;reason_other&#39;, &#39;reason_reputation&#39;, &#39;guardian_father&#39;, &#39;guardian_mother&#39;, &#39;guardian_other&#39;, &#39;traveltime&#39;, &#39;studytime&#39;, &#39;failures&#39;, &#39;schoolsup&#39;, &#39;famsup&#39;, &#39;paid&#39;, &#39;activities&#39;, &#39;nursery&#39;, &#39;higher&#39;, &#39;internet&#39;, &#39;romantic&#39;, &#39;famrel&#39;, &#39;freetime&#39;, &#39;goout&#39;, &#39;Dalc&#39;, &#39;Walc&#39;, &#39;health&#39;, &#39;absences&#39;]
 </pre>
 </div>
 </div>
@@ -12193,19 +12234,15 @@ The <code>predictions_0</code> function below will always predict that a passeng
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong> <em>61.62%</em></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<p>Let's take a look at whether the feature <strong>Sex</strong> has any indication of survival rates among passengers using the <code>survival_stats</code> function. This function is defined in the <code>titanic_visualizations.py</code> Python script included with this project. The first two parameters passed to the function are the RMS Titanic data and passenger survival outcomes, respectively. The third parameter indicates which feature we want to plot survival statistics across.<br>
-Run the code cell below to plot the survival outcomes of passengers based on their sex.</p>
+<h3 id="Implementation:-Training-and-Testing-Data-Split">Implementation: Training and Testing Data Split<a class="anchor-link" href="#Implementation:-Training-and-Testing-Data-Split">&#182;</a></h3><p>So far, we have converted all <em>categorical</em> features into numeric values. For the next step, we split the data (both features and corresponding labels) into training and test sets. In the following code cell below, you will need to implement the following:</p>
+<ul>
+<li>Randomly shuffle and split the data (<code>X_all</code>, <code>y_all</code>) into training and testing subsets.<ul>
+<li>Use 300 training points (approximately 75%) and 95 testing points (approximately 25%).</li>
+<li>Set a <code>random_state</code> for the function(s) you use, if provided.</li>
+<li>Store the results in <code>X_train</code>, <code>X_test</code>, <code>y_train</code>, and <code>y_test</code>.</li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
@@ -12215,7 +12252,21 @@ Run the code cell below to plot the survival outcomes of passengers based on the
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">survival_stats</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import any additional functionality you may need here</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># TODO: Set the number of training points</span>
+<span class="n">num_train</span> <span class="o">=</span> <span class="mi">300</span>
+
+<span class="c1"># Set the number of testing points</span>
+<span class="n">num_test</span> <span class="o">=</span> <span class="n">X_all</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">num_train</span>
+
+<span class="c1"># TODO: Shuffle and split the dataset into the number of training and testing points above</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">num_test</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_all</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+<span class="c1"># Show the results of the split</span>
+<span class="k">print</span> <span class="s2">&quot;Training set has {} samples.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span> <span class="s2">&quot;Testing set has {} samples.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -12227,230 +12278,11 @@ Run the code cell below to plot the survival outcomes of passengers based on the
 
 
 <div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfIAAAGJCAYAAABxdLHSAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
-AAALEgAACxIB0t1+/AAAIABJREFUeJzt3Xu8VWW97/HPj0veAgRDQEE0SwvLbAeWqXnJa4qyK1Gw
-NO3ULru5O1qapqTHFCO1TluPdqUSTNu7AjUlzWtlaaWlGGApEAIiomJ4hd/5Y4y1nCzWZS5krrWG
-fN6v13qtOe7PmGuO9Z3PM54xRmQmkiSpmnp1dwEkSdL6M8glSaowg1ySpAozyCVJqjCDXJKkCjPI
-JUmqMINc6gIRMTEibtgA6zk+Iu7YEGVaz+1fFhFnrMdyIyLi6YiIRpRrQ2w/ItZExOu7slzShmCQ
-b4Qi4pGIWFX+Y1scEd+PiM27u1xdLSK2jYifRsSyiFgREX+JiOMasa3MnJaZh2yo1bU1ISI+GhEP
-RsRT5d/22ojYopz2/Yg4p96NtPalITM/mZnn1bHswxGxf81yCzOzf26gG1dExP+LiEtrhvtExDMR
-8V+tjNu95fYj4paIOLHFausuW0ScHRFn1Qx/KSL+UR5TCyJi+ivYvaZ17hMRt7QxbWT5xePp8mdl
-RPx5A2zz7Ij44Stdj7qWQb5xSuCwzOwP/BswGjize4vUWBHRu5XRPwLmAyOArYAPA0s34Pq7VETs
-A5wHHJ2ZA4A3Az95JaukE+HWxW4H9q4ZHg0saDFuDEX5/1jnOtertSAijgeOBfYvj6nRwM3rs65W
-tPf+JzCg/ILSLzPfvoG2ud56wnGwMTLIN14BkJmLgV8CbwGIiI9ExOzyW/5DEfHx5gUitoqImWXt
-dXlE3FYz7YsR8c9yuQcjYr9yfETEaeW6lkXEVRGxZTmtqVZxXETMj4jHIuJLNevcNCKmRsQTEfFA
-RJwaEQtrpg8ra9SPRcTfI+IzNdPOjohrIuJHEfEkcHwr78EYYGpmPpeZazLzvsy8sVx+n9ptleOa
-a5mtrP9LZSvHljXzv73c5961tduIuDQivtZi3T+PiJNr3suHyvfy/ogYV88flCJAfpuZfwHIzCcz
-80eZ+a+I+BhF2HyhXO8v2ttWRLwJuAzYo6ztPVGOb67Vt/V5KGt02wEzy/WeUvO37lXOMzAivhcR
-i8pl/6e9dbbiduDNETGoHN4buArYombcXsDvMnN17fYj4v+U83+rLN83a9Z7YETMLT9z3+rE+35j
-Zj5Svu+PZeZ3miZGRP+I+E5EPBoRCyPi3Iiiib/8LPy0Zt7JEfGrOrcLbXz5iIgTy+N4eUT8MiK2
-q5l2SRStBk9FxN0RsVc5/mDgS8DRUVPDjxatK+Vn/0fl66b39cSImE/5BSYi3hURvyn/jn+O4kum
-GiUz/dnIfoCHKWoPUNRG7wcmlcOHAtuXr/cG/gXsVg5/FbiU4gtgb2DPcvxOFLWhIeXwdsAO5evP
-Ab8FhgF9KcJhWjltJLAGuBx4DbAr8Bywczn9AuAWoD+wDXAfsKCcFsA9wBllWbYHHgIOLKefDTwP
-jC2HN2nlfZgF3AkcDYxoMW2fpm218b61XP+mwE3AR2vmvxC4tHx9PHB7zfs6v2a+LYFVNe/fB2pe
-HwU8UzPcvJ5W9mev8u81CXg38JoW078PnNNiXKe2VbuOtj4PNe/VfjXDI4HVQK9y+Dpgevm37Q3s
-3dE6W9nffwBHlq9nAvtStLLUjjuzje3fApzYYn1rgBlAP4rj4jHgoDqOp2OBx4FTgHc0baNm+s/K
-fdoUeB1wF/CxctpmwN+A48rPxWPAsDq22bQ/vVuZdiQwl+K47EURzr+pmT6x/Mz1Av4TWNz0WaH4
-XP+wrc99y3l4+Rj+Qbkvm1Acq48DB5fzvLcc3qor/r9tjD/WyDdePy9rWbdT/FM7HyAzf5kv1yzu
-oAi7pubKFykCeYfMXJ2ZvynHr6YI4rdERJ/MXJCZD5fT/gM4IzMXZ+aLwDnAB5tqZhTNg5My84Us
-apL3AW8rpx0FnJeZT2fmo0BtzWl34HWZeV5ZlkeA7wDH1Mzzu8ycWe7L8628B0eV+38m8I+I+FNE
-jK7z/Wu5/ucogmlizfRjgCtbLlS+r9lUEwI+SFGTXlpO/++a19cA88r9bVdm3gm8H3g7cC3weER8
-van218Yy67WtUlufhyZt1RaHAQcD/1H+bVeX70k966x1G/Cecv92pwjIO2vG7VnO0xnnZ+bKzFxI
-cVzs1tECmXkl8BngIOBWYGlEfKHc160pvhz/ZxYtP48DlwATymWfpTilczHwQ+DTWbSS1SOApv4d
-T0TE58vx/1Hux9zMXEPxhXi3iBhRbnNaFq01azLzYorw3bnObbb6FgBnZ+az5XH2IeC6LFu3MvNm
-ii/d73sF21A7DPKN15GZOSgzd8jMzzQFXUQcGhG/K5vkVlD8E3pduczXgL8Ds8rm2C8CZObfgZMp
-aoJLI2JaRAwtlxkJ/Kz8R/MEMJvin/WQmrLUnpdeBby2fL0N8M+aabVN3dsB2zattyzr6cDWbcy/
-jsx8KjO/lJlvLctzH0XtqV4t1//fwLsiYkjZlNheEP2E8p85Rfg3B34Upxr+XP6DXgHswst/g3Zl
-5o2ZeWRmDqKomX0E+F9tzf9KtkUbn4c6DAeeyMynW5l2YSfWeTvwHuCtwN/LL1N3UrSmvJWiBvz7
-OsvUpK3PYrsyc3pmHkRR0/0EcG5EHEjx+e8LLK75nP4/at7jzLybonUhgGs6UdakqOUOLI/li8rx
-I4Fv1Bxzy8t5twUoT3XMrvmb96f+v3lbao/TkcD4FsfmnhRf0NQABvnGa53aUkS8BvgpxT/TwZk5
-kOL8edP59Gcy85TM3BE4Avh8lOfCM/OqzNyb4iAGmFz+XgAcWv6jGVT+09mizlrHYop/+k22q3m9
-EPhHi/UOyMyxNfPU3VErM58ApgDbRMRAiibq5p78UXTiGdxysRbreJKiBeMYipC+qp1NTqdomdgO
-eCfFlwDK4SuAk8p9Ggg8wHp0xMrMW4BfU/Z/aFneOrbV7vvX3uehg2UXAoMion8r6/xXO+ts6XaK
-GvNhwB3l8g9QNIsfBtydmS+0Vfz29m19la0I/w38heJ9X0hxumirms/plpm5a9MyEfEpihatR4F6
-vww1L97KuAUUrR21x8ZrM/OushXoVOCDNX/zp2n/b77WsQAMbWWe2uUWUjS9126/X2Ze2Ml9U50M
-ctV6TfnzeGauiYhDKZoLAYiIwyJix3JwJfASsCYidoqI/covAi8Az1KcN4Pi/PdXmzrbRMTgiDii
-ZpvtBdTVwOkRsWVEbAt8qmbaH4CVEfGFKDrF9Y6IXTrTNB4RF5TL9I6IfsBJwEOZuYLiHOOmZQtF
-H4rm99fUsdrpFOc7PwBMa2umzLyXoqb0HeCGmtrpFhTv3eNRdMw6gZeDuKP9OSIijo6XOxPuTlE7
-/V05y1Kg9jrpjra1FBgeEX3b2F5rn4fVbWwLXv5CuITiC+Kl5d+2T0Ts3c4619CKsiVoKUU/jNrL
-5H5fjru9te23U771EkVHxvdFxGujcCgwCrir3NdZwMUR0a+c/vqIeE+57E7AuRTn2Y8DTo2IXdva
-Vjv7U+tyis6Xo8ptDIiID5bT+lG0iC2PiNdEcQldv5pllwLbtzgdcy9wTPl3Gk1xKqi9cvwYGBsR
-B5Wfq02j6Dy6TZ37pU4yyDdOrdZGMvMZ4LPANWWT3DHAL2pmeSNwU0SsBH4D/Fdm3kZxju0CYBlF
-rWIwRTM3wDfKdcyKiKcoOr7VnoNtWZba4XOARRSdbWZRNDs+X5Z1DXA4RY3sYYpOQt+maCas1+YU
-TekrKDrKjaCoBVIG60nAdymaDVeydvNhW2ZQvE+LM/OvHcw7jaIjUHOzemY+CHyd4nzvEoqm7jvr
-3J8VwMeAueV7/UNgcmY2tQx8F9ilbO78n3JbF7WzrV9T1NCXRMRjrWyvtc9DU3ieD3w51j53W/u3
-/TBFSP+Nl8O4rXW2d577dopLB2tPYdxB8RlsGeS12/8GcFQUp5AuaWV6a8NteZqiQ9l8ir/BBcAn
-MrPpC9RxFF8CZwNPUHyOh5atPD+iOJ99f2Y+RNF580dtfXmqp3yZ+fOyDFdFcUXFX4CmexjcWP7M
-pThuVrH2KaJrKIJ5eUTcU477MvCGsuxns26/j5YtU/+kOK3zJYr/CfMpOgKaNw0SmY29TDQiHgGe
-ovhW/WJm7l42Xf6Eohn2EWB8Zj5Vzn86cCLFQf65zJzV0AKqMiLiExTXSLfV1CpJG52u+Ia0Btg3
-M9+emU01sdOAmzJzZ4pv/acDlE1B4yluZHEoRdNbt9zSUd0vIoZGxLvL5sidgf8N/E93l0uSepKu
-CPJoZTtHAlPL11OBphteHAFclZkvZXE5UWcuhdGrz2sozvc9TXGN9s8orkOXJJX6dME2EvhVRKwG
-Ls/ijkdD8uVrV5dEca0lFJdH/K5m2UXlOG2EMnMBxWVEkqQ2dEWQ75mZiyNiMEWHpzmsf6cSSZJU
-o+FB3nS9cGYui4ifUzSVL42IIZm5NIobhzT1iF1E0XO4yfBy3FoiwuCXJG10MnPde4A0std6FI/G
-7JWZz0TxKMVZwFcoLrl5IjMnR3HnpoGZeVrZ2e1KihtkbAv8CnhjtihkRLQcpW40adIkJk2a1N3F
-kNQAHt89R0S0GuSNrpEPobg9Z5bbujIzZ5XXJ14dxfOA51P0VCczZ0fE1bx8G8+TTGxJktrW0CDP
-4sEZ6zx0oLwd5gFtLHM+5QM8JElS+7zTjl6xfffdt7uLIKlBPL57vobf2a0RPEcuSdrYdNc5cklS
-K8aOHcvixfU+elwbk2HDhjFz5sy65zfIJakbLF68mHvuuafjGbXRGT267oc4Ap4jlySp0gxySZIq
-zCCXJKnCDHJJUqd98pOf5Lzzzmtzeq9evfjHP/7RhSXqWgsXLqR///70hCuoDHJJ6iG2HzqUiGjY
-z/ZDh9ZXju23Z/PNN2fAgAEMGjSIvfbai8svv3yt0Lrssss444wz2lxHxDpXSW0QO+ywA7/+9a8b
-su7OGDFiBE8//XTD9rMzDHJJ6iHmL11KQsN+5i9dWlc5IoLrrruOp556ivnz53PaaacxefJkPvrR
-j9a9Lz2hpvpKrF69uruLUDeDXJK0jqYg7tevH4cffjg/+clPmDp1KrNnzwbghBNO4Kyzzmqe/2tf
-+xrbbLMNw4cP5/vf/367NdX99tuPs846i7322ov+/ftzyCGH8MQTTzRPnzFjBm95y1sYNGgQ+++/
-P3PmzAHguOOOY8GCBYwdO5b+/fszZcqUdda9fPlyxo4dy8CBA9lqq63YZ599mqe1bO6v3YfbbruN
-ESNGcOGFFzJs2DBOPPFERo0axfXXX988/+rVq9l666259957mT9/Pr169WLNmjVcffXVjBkzZq1y
-XHzxxYwbNw6AF154gVNOOYWRI0cybNgwTjrpJJ5//vkO/gL1M8glSR0aM2YMw4cP54477lhn2g03
-3MBFF13EzTffzLx587jppps6XN/06dOZOnUqy5Yt4/nnn28O5blz5zJx4kS++c1vsmzZMg499FAO
-P/xwXnrpJX74wx+y3Xbbce211/L0009zyimnrLPer3/964wYMYLly5fz2GOP8dWvfrV5WkfN4EuW
-LOHJJ59kwYIFXHHFFUycOJFp06attZ+DBw9mt912W2t9Y8eOZe7cufz9739fa/+OPfZYAL74xS/y
-0EMP8Ze//IWHHnqIRYsWcc4553T4HtXLIJck1WWbbbZZq+bc5JprruGEE07gzW9+M5tttlldjz09
-4YQT2HHHHdlkk00YP3489957LwBXX301hx9+OPvvvz+9e/fmlFNO4dlnn+W3v/1t87LtNdv37duX
-xYsX8/DDD9O7d2/23HPPupYD6N27N1/5ylfo27cvm2yyCRMmTGDGjBk899xzQBHOEyZMWGe5zTbb
-jCOPPJLp06cDMG/ePObMmcMRRxwBwLe//W0uvvhiBgwYwBZbbMFpp53WPO+GYJBLkuqyaNEiBg0a
-tM74Rx99lBEjRjQPjxw5ssPQHFrT8W7zzTfnmWeeaV7XyJEjm6dFBCNGjGDRokV1lfELX/gCO+64
-IwcddBBveMMbmDx5cl3LAQwePJi+ffs2D++4446MGjWKmTNn8uyzzzJjxgwmTpzY6rITJkxoDudp
-06Yxbtw4NtlkE5YtW8aqVat4xzvewaBBgxg0aBCHHnooy5cvr7tcHfEWrZKkDt199908+uij7L33
-3utMGzZsGAsXLmwenj9//nr35t5mm224//771xq3cOFChg8fDnTcPL7FFlswZcoUpkyZwuzZs9lv
-v/3Yfffd2W+//dh8881ZtWpV87xLlixZ6wtIa+s+5phjmDZtGqtXr2aXXXbh9a9/favbPfDAA1m2
-bBn33XcfV111FZdccgkAr3vd69h888154IEHGDZsWH1vQidZI5cktWnlypVce+21TJgwgQ9/+MOM
-GjVqnXnGjx/PD37wAx588EFWrVr1is7/jh8/nuuuu45bbrmFl156iSlTprDpppuyxx57AEVNvr3r
-06+77rrmc9X9+vWjT58+9OpVRN1uu+3GtGnTWLNmDTfccAO33XZbh+U55phjmDVrFpdddtk6tfHa
-Voc+ffpw1FFHceqpp7JixQoOPPBAoPhy8LGPfYyTTz6ZZcuWAUXLxqxZszrxrrTPIJckrWPs2LEM
-GDCA7bbbjvPPP59TTjmF733ve83Ta2uvhxxyCCeffDL7778/O+20E+9973vbXXd7teqddtqJH//4
-x3z6059m8ODBXHfddcycOZM+fYoG5NNOO41zzz2XQYMGcdFFF62z/Lx58zjggAPo168fe+65J5/6
-1Keae65/4xvfYMaMGQwcOJDp06fz7//+7x2+D0OHDmWPPfbgrrvu4uijj253PyZMmMDNN9/M+PHj
-m788AEyePJk3vOENvOtd72LLLbfkoIMOYu7cuR1uu16VfR55d5dBLxs5ZAiPLFnS3cWQKmX06NHr
-PP1s+6FD677We314rFZDa58NeBU+j9wk7zmigf94pI2JIav1YdO6JEkVZpBLklRhBrkkSRVmkEuS
-VGEGuSRJFWaQS5JUYQa5JEkVZpBLkrrNJz/5Sc4777wNvt6vfOUrfPjDH97g6+2JDHJJ6iGGDh9K
-RDTsZ+jwoR0XonTnnXey5557suWWW/K6172Ovffemz/+8Y8bfJ8vu+wyzjjjjA2+Xuj4ASuvFpW9
-s5skvdosXbQUJjVw/ZPquwvjypUrGTt2LJdffjlHHXUUL7zwAnfccQebbLJJp7eZmRtNoHYXa+SS
-pLXMnTuXiGD8+PFEBJtssgkHHHAAb3nLW9Zpsp4/fz69evVizZo1AOy3336ceeaZ7LXXXmyxxRZ8
-7WtfY8yYMWut/+KLL2bcuHEAnHDCCZx11lkAjBo1iuuvv755vtWrV7P11ltz7733AnDXXXex5557
-MnDgQN7+9rev9fSyRx55hH333ZcBAwZw8MEH8/jjjzfmzemBDHJJ0lp22mknevfuzUc+8hFuuOEG
-nnzyybWmt6xhtxz+8Y9/zHe+8x1WrlzJJz7xCebOndv8aFGA6dOnc+yxx66z3QkTJjBt2rTm4Rtu
-uIHBgwez2267sWjRIg4//HDOOussVqxYwZQpU/jABz7A8uXLAZg4cSJjxozh8ccf58wzz2Tq1Kmv
-+H2oCoNckrSWfv36ceedd9KrVy8+/vGPM3jwYMaNG8djjz1W1/If+chHeNOb3kSvXr3o378/Rx55
-JNOnTweKx4zOmTOHsWPHrrPcxIkTmTFjBs899xxQBP6ECRMAuPLKKznssMM4+OCDAXjve9/L6NGj
-uf7661m4cCH33HMP55xzDn379mXvvfdudf2vVga5JGkdO++8M9/73vdYsGABDzzwAI8++ignn3xy
-XcuOGDFireEJEyY0B/m0adMYN24cm2666TrL7bjjjowaNYqZM2fy7LPPMmPGjOaa+/z587n66qsZ
-NGgQgwYNYuDAgfzmN79h8eLFPProowwcOJDNNtuseV0jR45c312vHDu7SZLatdNOO3H88cdzxRVX
-8I53vINVq1Y1T1u8ePE687dsaj/wwANZtmwZ9913H1dddRWXXHJJm9s65phjmDZtGqtXr2aXXXZh
-hx12AIovB8cddxyXX375OsssWLCAFStW8OyzzzaH+YIFC+jVa+Ooq24ceylJqtucOXO46KKLWLRo
-EQALFy5k+vTp7LHHHrztbW/j9ttvZ+HChTz11FNccMEFHa6vT58+HHXUUZx66qmsWLGCAw88sM15
-jznmGGbNmsVll13GxIkTm8d/6EMfYubMmcyaNYs1a9bw3HPPcdttt/Hoo4+y3XbbMXr0aM4++2xe
-fPFF7rzzTmbOnPnK34iKMMglSWvp168fv//973nnO99Jv379ePe7382uu+7KlClTOOCAAzj66KPZ
-ddddGTNmzDrnotu61GzChAncfPPNjB8/fq2acsv5hw4dyh577MFdd93F0Ucf3Tx++PDh/OIXv+Cr
-X/0qgwcPZuTIkUyZMqW5t/yVV17JXXfdxVZbbcW5557L8ccfv6Hejh4vMrO7y9BpEVHBUr96BcW1
-opLqN3r0aO655561xg0dPrS4lrxBhmw7hCX/XNKw9WvDaO2zAcWXnsxc55uS58glqYcwZLU+bFqX
-JKnCDHJJkirMIJckqcIMckmSKswglySpwgxySZIqzMvPJKkbDBs2jNGjR3d3MdQDDRs2rFPze0MY
-vWLeEEaSGq+tG8LYtC5JUoUZ5JIkVZhBLklShRnkkiRVmEEuSVKFGeSSJFWYQS5JUoUZ5JIkVZhB
-LklShRnkkiRVmEEuSVKFGeSSJFVYlwR5RPSKiD9FxIxyeGBEzIqIORFxY0QMqJn39IiYFxEPRsRB
-XVE+SZKqqqtq5J8DZtcMnwbclJk7A78GTgeIiFHAeODNwKHApRGxzpNeJElSoeFBHhHDgfcB36kZ
-fSQwtXw9FRhXvj4CuCozX8rMR4B5wO6NLqMkSVXVFTXyi4FTgdoHVg/JzKUAmbkE2Locvy2wsGa+
-ReU4SZLUioYGeUQcBizNzHuB9prIs51pkiSpDX0avP49gSMi4n3AZkC/iPgRsCQihmTm0ogYCjxW
-zr8IGFGz/PBy3Dom1bzet/yRJOnV4tZbb+XWW2/tcL7I7JrKcETsA/zvzDwiIi4Elmfm5Ij4IjAw
-M08rO7tdCbyTokn9V8Abs0UhI6KLSq16BNBVnyNJ2lhFBJm5Tut2o2vkbbkAuDoiTgTmU/RUJzNn
-R8TVFD3cXwROahnikiTpZV1WI9+QrJH3LNbIJanx2qqRe2c3SZIqzCCXJKnCDHJJkirMIJckqcIM
-ckmSKswglySpwgxySZIqzCCXJKnCDHJJkirMIJckqcIMckmSKswglySpwgxySZIqzCCXJKnCDHJJ
-kirMIJckqcIMckmSKswglySpwgxySZIqzCCXJKnCDHJJkirMIJckqcIMckmSKswglySpwgxySZIq
-zCCXJKnCDHJJkirMIJckqcIMckmSKswglySpwgxySZIqzCCXJKnCDHJJkirMIJckqcIMckmSKswg
-lySpwgxySZIqzCCXJKnCDHJJkirMIJckqcIMckmSKqzDII+ILSKiV/l6p4g4IiL6Nr5okiSpI/XU
-yG8HNo2IbYFZwIeBHzSyUJIkqT71BHlk5irg/cClmXkUsEtjiyVJkupRV5BHxB7AscB15bjejSuS
-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
-L2A08FzDSiRJkupWT6/12ueSv0TxULUjG1IaSZLUKfWcI98gzyWXJEkbXptBHhFntbNcZua5DSiP
-JEnqhPZq5P9qZdwWwEeBrQCDXJKkbtZmkGfm15teR0Q/4HPACcBVwNfbWk6SJHWdds+RR8Qg4PPA
-scBU4N8yc0VXFEySJHWsvXPkXwPeD1wBvDUzn+myUkmSpLpEZrY+IWINxdPOXuLlW7QCBEVnt267
-RWtEtFFqdYfyA9HdxZDUABEBk7q7FAJgEmRmtBzd3jnyTt31TZIkdT3DWpKkCjPIJUmqMINckqQK
-M8glSaowg1ySpAozyCVJqjCDXJKkCjPIJUmqMINckqQKM8glSaowg1ySpAozyCVJqjCDXJKkCjPI
-JUmqMINckqQKM8glSaowg1ySpAozyCVJqjCDXJKkCjPIJUmqMINckqQKM8glSaowg1ySpAozyCVJ
-qjCDXJKkCjPIJUmqMINckqQKM8glSaowg1ySpAozyCVJqjCDXJKkCjPIJUmqMINckqQKM8glSaow
-g1ySpAozyCVJqjCDXJKkCuvT3QXQq0BviIjuLoWAIdsOYck/l3R3MSR1oYYGeUR8FzgcWJqZu5bj
-BgI/AUYCjwDjM/OpctrpwInAS8DnMnNWI8unDWQ1MKm7CyGApZOWdncRJHWxRjetfx84uMW404Cb
-MnNn4NfA6QARMQoYD7wZOBS4NKzmSZLUroYGeWbeCaxoMfpIYGr5eiowrnx9BHBVZr6UmY8A84Dd
-G1k+SZKqrjs6u22dmUsBMnMJsHU5fltgYc18i8pxkiSpDT2h13p2dwEkSaqq7ui1vjQihmTm0ogY
-CjxWjl8EjKiZb3g5rlWTal7vW/5IkvSq8TBFl/AOdEWQR/nTZAbwEWAycDzwi5rxV0bExRRN6m8A
-/tDWSic1oKCSJPUYO5Q/TW5rfbZGX342jaKyvFVELADOBi4AromIE4H5FD3VyczZEXE1MBt4ETgp
-M212lySpHQ0N8syc2MakA9qY/3zg/MaVSJKkV5ee0NlNkiStJ4NckqQKM8glSaowg1ySpAozyCVJ
-qjCDXJKkCjPIJUmqMINckqQKM8glSaqw7nhoiiS1afuhQ5m/dGl3F0OqDINcUo8yf+lSn23cg0TH
-s6ib2bQuSVKFGeSSJFWYQS5JUoUZ5JIkVZhBLklShRnkkiRVmEEuSVKFGeSSJFWYQS5JUoUZ5JIk
-VZhBLklShRnkkiRVmEEuSVKFGeSSJFWYQS5JUoUZ5JIkVZhBLklShRnkkiRVmEEuSVKFGeSSJFWY
-QS5JUoUZ5JIkVZhBLklShRnkkiRVmEEuSVKFGeSSJFWYQS5JUoUZ5JIkVZhBLklShRnkkiRVmEEu
-SVKFGeSSJFWYQS5JUoUZ5JIkVZhBLklShRnkkiRVmEEuSVKFGeSSJFWYQS5JUoUZ5JIkVZhBLklS
-hRnkkiRVmEEuSVKFGeSSJFWYQS5JUoUZ5JIkVZhBLklShfXIII+IQyLibxExNyK+2N3lkSSpp+px
-QR4RvYBvAQcDuwATIuJN3VsqSZJ6ph4X5MDuwLzMnJ+ZLwJXAUd2c5kkSeqRemKQbwssrBn+ZzlO
-kiS10BODXJIk1alPdxegFYuA7WqGh5fj1hJdVhzVZVJ3F0BNIqp/dFR/D15lJnV3AdSeyMzuLsNa
-IqI3MAd4L7AY+AMwITMf7NaCSZLUA/W4Gnlmro6ITwOzKJr+v2uIS5LUuh5XI5ckSfWzs5s2qIjY
-JyJmdnc5JBUi4rMRMTsiftSg9Z8dEZ9vxLpVnx7XtK5XBZt5pJ7jk8B7M/PR7i6IGsMaudYRESMj
-4sGI+H5EzImIH0fEeyPiznJ4dESMiYjfRsQfy/FvbGU9m0fEdyPirnK+sd2xP9LGKiIuA14P/DIi
-vtTa8RgRx0fEzyJiVkT8IyI+FRH/GRF/Ko/xLcv5/ldE/CEi/hwR10TEpq1s7/UR8cuIuDsibouI
-nbp2jzdOBrnasiPwtczcGXgTxZUDewGnAmcADwJ7ZeY7gLOB81tZxxnAzZn5LmB/YEpEbNYlpZdE
-Zn6S4vLd/YAtaPt43AUYR3FnzfOAZzLz34C7gOPKef47M3fPzLcDfwM+2somrwA+nZljKP5XXNaY
-PVMtm9bVloczc3b5+gHg5vL1X4GRwJbAD8uaeNL6Z+kgYGxEnFoOv4biHgFzGlZqSW1p63gEuCUz
-VwGrIuJJ4Npy/F+Bt5avd42IcymO/S2AG2tXHhFbAO8GromXb2bQtyF7orUY5GrL8zWv19QMr6E4
-OM8Ffp2Z74+IkcAtrawjgA9k5ryGllRSPVo9HiPiXax9vCdrH+9NOfF94IjMvD8ijgf2abH+XsCK
-siavLmTTutrS0c21+vPyHfdOaGOeG4HPNq8wYrcNUC5JndN0LL/S4/G1wJKI6Asc23JiZq4EHo6I
-D9ZsY9fOF1edZZCrLdnG66bhC4ELIuKPtP05OhfoGxF/iYi/Auds+GJK6kDT8Vt7PN5P28djW1ed
-nEVxp807KPrItOZDwEcj4t5yG0esZ5nVCd4QRpKkCrNGLklShRnkkiRVmEEuSVKFGeSSJFWYQS5J
-UoUZ5JIkVZhBLmktEXFGRNwfEfeVD84Y091lktQ2b9EqqVl5u873Abtl5ksRMYjintySeihr5JJq
-DQMez8yXADLzicxcEhH/FhG3lo+n/GVEDImI3uVjLd8DEBHnlw/VkNSFvLObpGblE6zuBDajeOLd
-T4DfArdRPDBjeUSMBw7OzI9GxCjgGop7eF8IvLPpS4CkrmHTuqRmmfmviPg3YG+KZ1ZfRfF86rcA
-vyofT9kLWFzOPzsifkzx2EtDXOoGBrmktWTRTHc7cHv5sJtPAfdn5p5tLPJWYAUwpIuKKKmG58gl
-NYuInSLiDTWjdgNmA4PLjnBERJ+ySZ2IeD8wEHgP8K2I6N/VZZY2dp4jl9SsbFb/v8AA4CXgIeDj
-wPCa8b2BS4CfA78B9s/MRyPi08A7MrOt59NLagCDXJKkCrNpXZKkCjPIJUmqMINckqQKM8glSaow
-g1ySpAozyCVJqjCDXJKkCjPIJUmqsP8PJwzygMM5sQ0AAAAASUVORK5CYII=
-"
->
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Training set has 300 samples.
+Testing set has 95 samples.
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -12462,9 +12294,131 @@ g1ySpAozyCVJqjCDXJKkCjPIJUmqsP8PJwzygMM5sQ0AAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Examining the survival statistics, a large majority of males did not survive the ship sinking. However, a majority of females <em>did</em> survive the ship sinking. Let's build on our previous prediction: If a passenger was female, then we will predict that they survived. Otherwise, we will predict the passenger did not survive.<br>
-Fill in the missing code below so that the function will make this prediction.<br>
-<strong>Hint:</strong> You can access the values of each feature for a passenger like a dictionary. For example, <code>passenger['Sex']</code> is the sex of the passenger.</p>
+<h2 id="Training-and-Evaluating-Models">Training and Evaluating Models<a class="anchor-link" href="#Training-and-Evaluating-Models">&#182;</a></h2><p>In this section, you will choose 3 supervised learning models that are appropriate for this problem and available in <code>scikit-learn</code>. You will first discuss the reasoning behind choosing these three models by considering what you know about the data and each model's strengths and weaknesses. You will then fit the model to varying sizes of training data (100 data points, 200 data points, and 300 data points) and measure the F<sub>1</sub> score. You will need to produce three tables (one for each model) that shows the training set size, training time, prediction time, F<sub>1</sub> score on the training set, and F<sub>1</sub> score on the testing set.</p>
+<p><strong>The following supervised learning models are currently available in</strong> <a href="http://scikit-learn.org/stable/supervised_learning.html"><code>scikit-learn</code></a> <strong>that you may choose from:</strong></p>
+<ul>
+<li>Gaussian Naive Bayes (GaussianNB)</li>
+<li>Decision Trees</li>
+<li>Ensemble Methods (Bagging, AdaBoost, Random Forest, Gradient Boosting)</li>
+<li>K-Nearest Neighbors (KNeighbors)</li>
+<li>Stochastic Gradient Descent (SGDC)</li>
+<li>Support Vector Machines (SVM)</li>
+<li>Logistic Regression</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Question-2---Model-Application">Question 2 - Model Application<a class="anchor-link" href="#Question-2---Model-Application">&#182;</a></h3><p><em>List three supervised learning models that are appropriate for this problem. For each model chosen</em></p>
+<ul>
+<li>Describe one real-world application in industry where the model can be applied. <em>(You may need to do a small bit of research for this — give references!)</em> </li>
+<li>What are the strengths of the model; when does it perform well? </li>
+<li>What are the weaknesses of the model; when does it perform poorly?</li>
+<li>What makes this model a good candidate for the problem, given what you know about the data?</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer: </strong></p>
+<p><strong> Gaussian Naive Bayes (GaussianNB) </strong></p>
+<ul>
+<li>real world applications: email spam filtering, text classification, credit approval</li>
+<li>strengths: <ul>
+<li>easy to implement</li>
+<li>computationally efficient</li>
+<li>performs well on small datasets</li>
+<li>performs well on datasets with many features</li>
+</ul>
+</li>
+<li>weaknesses: <ul>
+<li>makes assumption that the features are mutually independent</li>
+<li>does not perform well on imbalanced datasets (where some labels appear rarely or don't appear at all in the data) or datasets where the features are not mutually independent</li>
+</ul>
+</li>
+<li>it's a good candidate for this problem because:<ul>
+<li>the problem is a classification problem</li>
+<li>the dataset is small</li>
+<li>the dataset is not imbalanced</li>
+</ul>
+</li>
+</ul>
+<p><strong> Support Vector Machines (SVM) </strong></p>
+<ul>
+<li>real world applications: text classification, image classification, hand-written characters recognition </li>
+<li>strengths:<ul>
+<li>high prediction accuracy</li>
+<li>doesn't overfit easily because it can apply regularization</li>
+<li>works well even if the data isn’t linearly separable by using a non-linear kernel</li>
+</ul>
+</li>
+<li>weaknesses:<ul>
+<li>model training is resource intensive</li>
+<li>tuning the model parameters (kernel, regularization, etc) can be complicated</li>
+<li>doesn't work very well with multi-class classification</li>
+</ul>
+</li>
+<li>it's a good candidate for this problem because:<ul>
+<li>it's a classification algorithm</li>
+<li>it has high prediction accuracy</li>
+<li>doesn't overfit easily</li>
+</ul>
+</li>
+</ul>
+<p><strong> Ensemble Methods - AdaBoost </strong></p>
+<ul>
+<li>real world applications: image object categorization, computer vision, bioinformatics</li>
+<li>strengths:<ul>
+<li>good prediction accuracy</li>
+<li>works well even if the data isn’t linearly separable</li>
+<li>works well with large datasets</li>
+<li>works well with a large number of features</li>
+<li>unlikely to overfit</li>
+<li>fast to train</li>
+</ul>
+</li>
+<li>weaknesses:<ul>
+<li>sensitive to noisy data and outliers</li>
+<li>model training is resource intensive</li>
+<li>predictions can be slow to generate</li>
+</ul>
+</li>
+<li>it's a good candidate for this problem because:<ul>
+<li>it's a classification algorithm</li>
+<li>it has high prediction accuracy</li>
+<li>doesn't overfit easily</li>
+<li>it's considered one of the best out-of-the-box classifier</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Setup">Setup<a class="anchor-link" href="#Setup">&#182;</a></h3><p>Run the code cell below to initialize three helper functions which you can use for training and testing the three supervised learning models you've chosen above. The functions are as follows:</p>
+<ul>
+<li><code>train_classifier</code> - takes as input a classifier and training data and fits the classifier to the data.</li>
+<li><code>predict_labels</code> - takes as input a fit classifier, features, and a target labeling and makes predictions using the F<sub>1</sub> score.</li>
+<li><code>train_predict</code> - takes as input a classifier, and the training and testing data, and performs <code>train_clasifier</code> and <code>predict_labels</code>.<ul>
+<li>This function will report the F<sub>1</sub> score for both the training and testing data separately.</li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
@@ -12474,20 +12428,43 @@ Fill in the missing code below so that the function will make this prediction.<b
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predictions_1</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Model with one feature: </span>
-<span class="sd">            - Predict a passenger survived if they are female. &quot;&quot;&quot;</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">train_classifier</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Fits a classifier to the training data. &#39;&#39;&#39;</span>
     
-    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">passenger</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-        <span class="n">survived</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;male&#39;</span> <span class="k">else</span> <span class="mi">1</span>
-        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span>
+    <span class="c1"># Start the clock, train the classifier, then stop the clock</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
     
-    <span class="c1"># Return our predictions</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+    <span class="c1"># Print the results</span>
+    <span class="k">print</span> <span class="s2">&quot;Trained model in {:.4f} seconds&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
 
-<span class="c1"># Make the predictions</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions_1</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">predict_labels</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Makes predictions using a fit classifier based on F1 score. &#39;&#39;&#39;</span>
+    
+    <span class="c1"># Start the clock, make predictions, then stop the clock</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    
+    <span class="c1"># Print and return results</span>
+    <span class="k">print</span> <span class="s2">&quot;Made predictions in {:.4f} seconds.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">train_predict</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Train and predict using a classifer based on F1 score. &#39;&#39;&#39;</span>
+    
+    <span class="c1"># Indicate the classifier and the training set size</span>
+    <span class="k">print</span> <span class="s2">&quot;Training a {} using a training set size of {}. . .&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+    
+    <span class="c1"># Train the classifier</span>
+    <span class="n">train_classifier</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    
+    <span class="c1"># Print the results of prediction for both training and testing</span>
+    <span class="k">print</span> <span class="s2">&quot;F1 score for training set: {:.4f}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predict_labels</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+    <span class="k">print</span> <span class="s2">&quot;F1 score for test set: {:.4f}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predict_labels</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -12500,8 +12477,21 @@ Fill in the missing code below so that the function will make this prediction.<b
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Question-2">Question 2<a class="anchor-link" href="#Question-2">&#182;</a></h3><p><em>How accurate would a prediction be that all female passengers survived and the remaining passengers did not survive?</em><br>
-<strong>Hint:</strong> Run the code cell below to see the accuracy of this prediction.</p>
+<h3 id="Implementation:-Model-Performance-Metrics">Implementation: Model Performance Metrics<a class="anchor-link" href="#Implementation:-Model-Performance-Metrics">&#182;</a></h3><p>With the predefined functions above, you will now import the three supervised learning models of your choice and run the <code>train_predict</code> function for each one. Remember that you will need to train and predict on each classifier for three different training set sizes: 100, 200, and 300. Hence, you should expect to have 9 different outputs below — 3 for each model using the varying training set sizes. In the following code cell, you will need to implement the following:</p>
+<ul>
+<li>Import the three supervised learning models you've discussed in the previous section.</li>
+<li>Initialize the three models and store them in <code>clf_A</code>, <code>clf_B</code>, and <code>clf_C</code>.<ul>
+<li>Use a <code>random_state</code> for each model you use, if provided.</li>
+<li><strong>Note:</strong> Use the default settings for each model — you will tune one specific model in a later section.</li>
+</ul>
+</li>
+<li>Create the different training set sizes to be used to train each model.<ul>
+<li><em>Do not reshuffle and resplit the data! The new training points should be drawn from <code>X_train</code> and <code>y_train</code>.</em></li>
+</ul>
+</li>
+<li>Fit each model with each training set size and make predictions on the test set (9 in total).<br>
+<strong>Note:</strong> Three tables are provided after the following code cell which can be used to store your results.</li>
+</ul>
 
 </div>
 </div>
@@ -12511,7 +12501,20 @@ Fill in the missing code below so that the function will make this prediction.<b
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import the three supervised learning models from sklearn</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>
+
+<span class="c1"># TODO: Initialize the three models</span>
+<span class="n">clf_A</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">clf_B</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">clf_C</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">clf</span> <span class="ow">in</span> <span class="p">[</span><span class="n">clf_A</span><span class="p">,</span> <span class="n">clf_B</span><span class="p">,</span> <span class="n">clf_C</span><span class="p">]:</span>
+    <span class="k">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">{}: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">]:</span>
+        <span class="n">train_predict</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">[:</span><span class="n">n</span><span class="p">],</span> <span class="n">y_train</span><span class="p">[:</span><span class="n">n</span><span class="p">],</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12524,7 +12527,69 @@ Fill in the missing code below so that the function will make this prediction.<b
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Predictions have an accuracy of 78.68%.
+<pre>
+GaussianNB: 
+
+Training a GaussianNB using a training set size of 100. . .
+Trained model in 0.0028 seconds
+Made predictions in 0.0006 seconds.
+F1 score for training set: 0.8553.
+Made predictions in 0.0005 seconds.
+F1 score for test set: 0.7133.
+Training a GaussianNB using a training set size of 200. . .
+Trained model in 0.0012 seconds
+Made predictions in 0.0005 seconds.
+F1 score for training set: 0.8380.
+Made predictions in 0.0003 seconds.
+F1 score for test set: 0.7023.
+Training a GaussianNB using a training set size of 300. . .
+Trained model in 0.0011 seconds
+Made predictions in 0.0005 seconds.
+F1 score for training set: 0.8088.
+Made predictions in 0.0003 seconds.
+F1 score for test set: 0.6719.
+
+SVC: 
+
+Training a SVC using a training set size of 100. . .
+Trained model in 0.0012 seconds
+Made predictions in 0.0007 seconds.
+F1 score for training set: 0.8519.
+Made predictions in 0.0008 seconds.
+F1 score for test set: 0.8101.
+Training a SVC using a training set size of 200. . .
+Trained model in 0.0029 seconds
+Made predictions in 0.0023 seconds.
+F1 score for training set: 0.8947.
+Made predictions in 0.0012 seconds.
+F1 score for test set: 0.7586.
+Training a SVC using a training set size of 300. . .
+Trained model in 0.0059 seconds
+Made predictions in 0.0044 seconds.
+F1 score for training set: 0.8825.
+Made predictions in 0.0015 seconds.
+F1 score for test set: 0.7465.
+
+AdaBoostClassifier: 
+
+Training a AdaBoostClassifier using a training set size of 100. . .
+Trained model in 0.1265 seconds
+Made predictions in 0.0039 seconds.
+F1 score for training set: 0.9286.
+Made predictions in 0.0038 seconds.
+F1 score for test set: 0.7313.
+Training a AdaBoostClassifier using a training set size of 200. . .
+Trained model in 0.1068 seconds
+Made predictions in 0.0048 seconds.
+F1 score for training set: 0.8936.
+Made predictions in 0.0038 seconds.
+F1 score for test set: 0.7299.
+Training a AdaBoostClassifier using a training set size of 300. . .
+Trained model in 0.1164 seconds
+Made predictions in 0.0078 seconds.
+F1 score for training set: 0.8759.
+Made predictions in 0.0048 seconds.
+F1 score for test set: 0.7101.
 </pre>
 </div>
 </div>
@@ -12538,7 +12603,7 @@ Fill in the missing code below so that the function will make this prediction.<b
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer</strong>: <em>76.68</em></p>
+<h3 id="Tabular-Results">Tabular Results<a class="anchor-link" href="#Tabular-Results">&#182;</a></h3><p>Edit the cell below to see how a table can be designed in <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#tables">Markdown</a>. You can record your results from above in the tables provided.</p>
 
 </div>
 </div>
@@ -12548,9 +12613,197 @@ Fill in the missing code below so that the function will make this prediction.<b
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<p>Using just the <strong>Sex</strong> feature for each passenger, we are able to increase the accuracy of our predictions by a significant margin. Now, let's consider using an additional feature to see if we can further improve our predictions. For example, consider all of the male passengers aboard the RMS Titanic: Can we find a subset of those passengers that had a higher rate of survival? Let's start by looking at the <strong>Age</strong> of each male, by again using the <code>survival_stats</code> function. This time, we'll use a fourth parameter to filter out the data so that only passengers with the <strong>Sex</strong> 'male' will be included.<br>
-Run the code cell below to plot the survival outcomes of male passengers based on their age.</p>
+<p><strong> Classifer 1 - GaussianNB </strong></p>
+<table>
+<thead><tr>
+<th style="text-align:center">Training Set Size</th>
+<th style="text-align:center">Training Time</th>
+<th style="text-align:center">Prediction Time (test)</th>
+<th style="text-align:center">F1 Score (train)</th>
+<th style="text-align:center">F1 Score (test)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">0.0012</td>
+<td style="text-align:center">0.0003</td>
+<td style="text-align:center">0.8553</td>
+<td style="text-align:center">0.8553</td>
+</tr>
+<tr>
+<td style="text-align:center">200</td>
+<td style="text-align:center">0.0010</td>
+<td style="text-align:center">0.0003</td>
+<td style="text-align:center">0.8380</td>
+<td style="text-align:center">0.7133</td>
+</tr>
+<tr>
+<td style="text-align:center">300</td>
+<td style="text-align:center">0.0008</td>
+<td style="text-align:center">0.0004</td>
+<td style="text-align:center">0.8088</td>
+<td style="text-align:center">0.6719</td>
+</tr>
+</tbody>
+</table>
+<p><strong> Classifer 2 - SVC </strong></p>
+<table>
+<thead><tr>
+<th style="text-align:center">Training Set Size</th>
+<th style="text-align:center">Training Time</th>
+<th style="text-align:center">Prediction Time (test)</th>
+<th style="text-align:center">F1 Score (train)</th>
+<th style="text-align:center">F1 Score (test)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">0.0012</td>
+<td style="text-align:center">0.0008</td>
+<td style="text-align:center">0.8519</td>
+<td style="text-align:center">0.8101</td>
+</tr>
+<tr>
+<td style="text-align:center">200</td>
+<td style="text-align:center">0.0047</td>
+<td style="text-align:center">0.0028</td>
+<td style="text-align:center">0.8947</td>
+<td style="text-align:center">0.7586</td>
+</tr>
+<tr>
+<td style="text-align:center">300</td>
+<td style="text-align:center">0.0060</td>
+<td style="text-align:center">0.0057</td>
+<td style="text-align:center">0.8825</td>
+<td style="text-align:center">0.7465</td>
+</tr>
+</tbody>
+</table>
+<p><strong> Classifer 3 - AdaBoostClassifier </strong></p>
+<table>
+<thead><tr>
+<th style="text-align:center">Training Set Size</th>
+<th style="text-align:center">Training Time</th>
+<th style="text-align:center">Prediction Time (test)</th>
+<th style="text-align:center">F1 Score (train)</th>
+<th style="text-align:center">F1 Score (test)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">0.1103</td>
+<td style="text-align:center">0.0050</td>
+<td style="text-align:center">0.9286</td>
+<td style="text-align:center">0.7313</td>
+</tr>
+<tr>
+<td style="text-align:center">200</td>
+<td style="text-align:center">0.1164</td>
+<td style="text-align:center">0.0049</td>
+<td style="text-align:center">0.8936</td>
+<td style="text-align:center">0.7299</td>
+</tr>
+<tr>
+<td style="text-align:center">300</td>
+<td style="text-align:center">0.1171</td>
+<td style="text-align:center">0.0051</td>
+<td style="text-align:center">0.8759</td>
+<td style="text-align:center">0.7101</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Choosing-the-Best-Model">Choosing the Best Model<a class="anchor-link" href="#Choosing-the-Best-Model">&#182;</a></h2><p>In this final section, you will choose from the three supervised learning models the <em>best</em> model to use on the student data. You will then perform a grid search optimization for the model over the entire training set (<code>X_train</code> and <code>y_train</code>) by tuning at least one parameter to improve upon the untuned model's F<sub>1</sub> score.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Question-3---Choosing-the-Best-Model">Question 3 - Choosing the Best Model<a class="anchor-link" href="#Question-3---Choosing-the-Best-Model">&#182;</a></h3><p><em>Based on the experiments you performed earlier, in one to two paragraphs, explain to the board of supervisors what single model you chose as the best model. Which model is generally the most appropriate based on the available data, limited resources, cost, and performance?</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer: </strong></p>
+<p>Based on the above experiments, I choose the SVC model to be the best for this dataset.</p>
+<p>The reasons behind this choice:</p>
+<ul>
+<li>this model had the best overall F1 scores on the test set out of all 3 models</li>
+<li>the training and prediction times were not the best, but not the worst as well.</li>
+</ul>
+<p>Generally, the most appropriate model is the one who does the best job of balancing cost and performance under the constraints of available data and limited resources.</p>
+<p>My conclusion is that the SVC model offers the best performance with costs that are not very high.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Question-4---Model-in-Layman's-Terms">Question 4 - Model in Layman's Terms<a class="anchor-link" href="#Question-4---Model-in-Layman's-Terms">&#182;</a></h3><p><em>In one to two paragraphs, explain to the board of directors in layman's terms how the final model chosen is supposed to work. Be sure that you are describing the major qualities of the model, such as how the model is trained and how the model makes a prediction. Avoid using advanced mathematical or technical jargon, such as describing equations or discussing the algorithm implementation.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer: </strong></p>
+<p>Support Vector Machine (SVM) algorithm is a type of supervised machine learning algorithm that can be used for both regression and classification tasks.</p>
+<p>It works by representing the examples as points in space, mapped so that the examples of the separate categories are divided by a clear gap that is as wide as possible.</p>
+<p>The Support Vectors are simply the co-ordinates of individual observation. The Support Vector Machine is the dotted line that passes throught the center of the gap between the categories of examples.</p>
+<p><img src="SVM_2.png"></p>
+<p>New examples are then mapped into that same space and predicted to belong to a category based on which side of the gap they fall.</p>
+<p>It performs linear classification, but it can also efficiently perform a non-linear classification using what is called the kernel trick. The kernel trick is a mathematical method for calculating a non-linear gap between the examples, while avoiding computationally expensive calculations.</p>
+<p>SVM is an algorithm with good prediction accuracy and that doesn't overfit easily. It is also flexible, because it allows experimenting with different kernels.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Implementation:-Model-Tuning">Implementation: Model Tuning<a class="anchor-link" href="#Implementation:-Model-Tuning">&#182;</a></h3><p>Fine tune the chosen model. Use grid search (<code>GridSearchCV</code>) with at least one important parameter tuned with at least 3 different values. You will need to use the entire training set for this. In the code cell below, you will need to implement the following:</p>
+<ul>
+<li>Import <a href="http://scikit-learn.org/0.17/modules/generated/sklearn.grid_search.GridSearchCV.html"><code>sklearn.grid_search.GridSearchCV</code></a> and <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html"><code>sklearn.metrics.make_scorer</code></a>.</li>
+<li>Create a dictionary of parameters you wish to tune for the chosen model.<ul>
+<li>Example: <code>parameters = {'parameter' : [list of values]}</code>.</li>
+</ul>
+</li>
+<li>Initialize the classifier you've chosen and store it in <code>clf</code>.</li>
+<li>Create the F<sub>1</sub> scoring function using <code>make_scorer</code> and store it in <code>f1_scorer</code>.<ul>
+<li>Set the <code>pos_label</code> parameter to the correct value!</li>
+</ul>
+</li>
+<li>Perform grid search on the classifier <code>clf</code> using <code>f1_scorer</code> as the scoring method, and store it in <code>grid_obj</code>.</li>
+<li>Fit the grid search object to the training data (<code>X_train</code>, <code>y_train</code>), and store it in <code>grid_obj</code>.</li>
+</ul>
 
 </div>
 </div>
@@ -12560,325 +12813,33 @@ Run the code cell below to plot the survival outcomes of male passengers based o
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">survival_stats</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Sex == &#39;male&#39;&quot;</span><span class="p">])</span>
-</pre></div>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;GridSearchCV&#39; and &#39;make_scorer&#39;</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">make_scorer</span>
 
-</div>
-</div>
-</div>
+<span class="c1"># TODO: Create the parameters list you wish to tune</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;kernel&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="s1">&#39;poly&#39;</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">],</span> \
+              <span class="s1">&#39;C&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}</span>
+ 
+<span class="c1"># TODO: Initialize the classifier</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
-<div class="output_wrapper">
-<div class="output">
+<span class="c1"># TODO: Make an f1 scoring function using &#39;make_scorer&#39; </span>
+<span class="n">f1_scorer</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">f1_score</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span>
 
+<span class="c1"># TODO: Perform grid search on the classifier using the f1_scorer as the scoring method</span>
+<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">f1_scorer</span><span class="p">)</span>
 
-<div class="output_area"><div class="prompt"></div>
+<span class="c1"># TODO: Fit the grid search object to the training data and find the optimal parameters</span>
+<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
+<span class="c1"># Get the estimator</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">best_estimator_</span>
+<span class="k">print</span> <span class="s1">&#39;Best model parameters: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid_obj</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
 
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-Z88GYMyYMVx66aXV619//fX07NmTXr16cdddd9Xbkh88eDCXXnophxxyCB07dmTo0KG8++671cun
-Tp3K3nvvTZcuXRgyZAhz5swB4NRTT2XBggUMGzaMjh07MmHChE3KXrlyJcOGDaNz58507dqVww47
-rHpZzUMIuXWYOXMmvXv35rrrrqNHjx6cccYZDBgwgIceeqh6/crKSnbccUdefPFF5s+fT6tWrdiw
-YQP33nsvgwYN2iiOm266iREjRgDw6aefct5551FWVkaPHj0466yz+OSTTxp4BRqHk7yZmTVo0KBB
-9OrViyeeeGKTZdOnT+fGG2/k0Ucf5fXXX+eRRx5psLwpU6YwadIkVqxYwSeffFKdsOfOncvo0aP5
-2c9+xooVKzjmmGM47rjjWL9+Pb/61a/o06cPDzzwAB988AHnnXfeJuXecMMN9O7dm5UrV7J8+XKu
-uuqq6mUNHUJYunQp7733HgsWLOCOO+5g9OjRTJ48eaN6duvWjf3222+j8oYNG8bcuXN58803N6rf
-ySefDMAFF1zAG2+8wcsvv8wbb7zBokWLuPzyyxt8jhqDk7yZmeWlZ8+eG7W4q9x3332MGTOGPffc
-k+22245x48Y1WNaYMWPYddddadeuHSNHjuTFF18E4N577+W4445jyJAhtG7dmvPOO4+1a9fy17/+
-tXrb+g4FtG3bliVLlvD222/TunVrDj744Ly2A2jdujXjx4+nbdu2tGvXjlGjRjF16lQ+/vhjIEnc
-o0aN2mS77bbbjuHDhzNlyhQAXn/9debMmcPxxx8PwM9//nNuuukmOnXqRPv27bnwwgur1y02J3kz
-M8vLokWL6NKlyybzFy9eTO/evauny8rKGkyo3bt3r368/fbb8+GHH1aXVZYzLkESvXv3ZtGiRXnF
-+JOf/IRdd92Vo446it12241rr702r+0AunXrRtu2baund911VwYMGMC0adNYu3YtU6dOZfTo2m+u
-OmrUqOrEPXnyZEaMGEG7du1YsWIFa9asYf/996dLly506dKFY445hpUrV+YdVyE88M7MzBr07LPP
-snjxYg499NBNlvXo0YOFCxdWT8+fP3+LR9f37NmTV155ZaN5CxcupFevXkDDXe7t27dnwoQJTJgw
-gdmzZzN48GAOOOAABg8ezPbbb8+aNWuq1126dOlGP05qK/ukk05i8uTJVFZWstdee7HLLrtssg7A
-kUceyYoVK3jppZe45557uPnmmwH4/Oc/z/bbb8+sWbPo0aNHfk9CI3JL3szM6rR69WoeeOABRo0a
-xSmnnMKAAQM2WWfkyJH87//+L6+++ipr1qwp6HjzyJEjefDBB3nsscdYv349EyZMYNttt+Wggw4C
-kh6A+s6/f/DBB6uPjXfo0IE2bdrQqlWS6vbbbz8mT57Mhg0bmD59OjNnzmwwnpNOOokZM2Zw2223
-bdKKz+2taNOmDSeccALnn38+q1at4sgjjwSSHw7f+c53OPfcc1mxYgWQ9IjMmDFjM56VLeckb2Zm
-mxg2bBidOnWiT58+XH311Zx33nkbnT6X2+odOnQo5557LkOGDKF///4cfvjh9ZZdX2u8f//+/OY3
-v+H73/8+3bp148EHH2TatGm0aZN0PF944YVcccUVdOnShRtvvHGT7V9//XWOOOIIOnTowMEHH8zZ
-Z59dPcL+lltuYerUqXTu3JkpU6bw7//+7w0+D927d+eggw7i6aef5sQTT6y3HqNGjeLRRx9l5MiR
-1T8sAK699lp22203DjzwQHbYYQeOOuoo5s6d2+C+G4PvJ29mVgIDBw7c5C50zeViOFZatb03wPeT
-NzNr0ZyArbG5u97MzCyjnOTNzMwyyknezMwso5zkzczMMspJ3szMLKOc5M3MzDLKSd7MzCyjnOTN
-zKxkvve973HllVc2ernjx4/nlFNOafRyWxpfDMfMrJk48z/PZN7ieUUrv2/Pvtx+U34X3HnyySe5
-4IILmDVrFm3atGHPPffk5ptvZv/992/UmG677bZGLS/Xlt4kJ0uc5M3Mmol5i+dR9q2yhlfc0vJ/
-My+v9VavXs2wYcOYOHEiJ5xwAp9++ilPPPEE7dq12+x9RoSTbQm5u97MzDYyd+5cJDFy5Egk0a5d
-O4444gj23nvvTbrB58+fT6tWrdiwYQMAgwcP5pJLLuGQQw6hffv2XH/99QwaNGij8m+66SZGjBgB
-wJgxY7j00ksBGDBgAA899FD1epWVley44468+OKLADz99NMcfPDBdO7cmS9+8Ysb3UVu3rx5lJeX
-06lTJ44++mjeeeed4jw5LYyTvJmZbaR///60bt2a008/nenTp/Pee+9ttLxmy7zm9G9+8xt+8Ytf
-sHr1as4880zmzp1bfftXgClTpnDyySdvst9Ro0YxefLk6unp06fTrVs39ttvPxYtWsRxxx3HpZde
-yqpVq5gwYQLf+MY3WLlyJQCjR49m0KBBvPPOO1xyySVMmjSp4OchC5zkzcxsIx06dODJJ5+kVatW
-fPe736Vbt26MGDGC5cuX57X96aefzh577EGrVq3o2LEjw4cPZ8qUKUByK9g5c+YwbNiwTbYbPXo0
-U6dO5eOPPwaSHwOjRo0C4O677+bYY4/l6KOPBuDwww9n4MCBPPTQQyxcuJDnnnuOyy+/nLZt23Lo
-oYfWWv7WyEnezMw2sfvuu/PLX/6SBQsWMGvWLBYvXsy5556b17a9e/feaHrUqFHVSX7y5MmMGDGC
-bbfddpPtdt11VwYMGMC0adNYu3YtU6dOrW7xz58/n3vvvZcuXbrQpUsXOnfuzFNPPcWSJUtYvHgx
-nTt3Zrvttqsuq6yseGMbWhIPvDMzs3r179+f0047jTvuuIP999+fNWvWVC9bsmTJJuvX7L4/8sgj
-WbFiBS+99BL33HMPN998c537Oumkk5g8eTKVlZXstdde9OvXD0h+OJx66qlMnDhxk20WLFjAqlWr
-WLt2bXWiX7BgAa1auR3rZ8DMzDYyZ84cbrzxRhYtWgTAwoULmTJlCgcddBD77rsvjz/+OAsXLuT9
-99/nmmuuabC8Nm3acMIJJ3D++eezatUqjjzyyDrXPemkk5gxYwa33XYbo0ePrp7/rW99i2nTpjFj
-xgw2bNjAxx9/zMyZM1m8eDF9+vRh4MCBXHbZZaxbt44nn3ySadOmFf5EZICTvJmZbaRDhw4888wz
-fPnLX6ZDhw585StfYZ999mHChAkcccQRnHjiieyzzz4MGjRok2PfdZ0uN2rUKB599FFGjhy5UQu7
-5vrdu3fnoIMO4umnn+bEE0+snt+rVy/uv/9+rrrqKrp160ZZWRkTJkyoHtV/99138/TTT9O1a1eu
-uOIKTjvttMZ6Olo0RUSpY9hskqIlxm1mVmXgwIE899xzG81rThfDsdKp7b0ByQ+iiNisiw74mLw1
-uYvPPJOV8+aVOoyi6dq3L1fd7i9S23xOwNbYnOStya2cN4+JGR75OjbDP2DMrGUp6jF5SXdKWibp
-5Zx510l6VdKLkn4vqWPOsoskvZ4uP6qYsZmZmWVdsQfe3QUcXWPeDGCviNgPeB24CEDSAGAksCdw
-DHCrfMFjMzOzLVbUJB8RTwKrasx7JCI2pJNPA73Sx8cD90TE+oiYR/ID4IBixmdmZpZlpT6F7gyg
-6m4EOwMLc5YtSueZmZnZFihZkpf0X8C6iJhSqhjMzMyyrCSj6yWdDnwNGJIzexGQe8HjXum8Wo0b
-N676cXl5OeXl5Y0ZoplZUfXo0YOBAweWOgxrhnr06AFARUUFFRUVBZVV9IvhSOoLTIuIL6TTQ4Eb
-gK9GxMqc9QYAdwNfJumm/zPwb7Vd9cYXw2nZxg4dmu1T6ObPZ+L06aUOw8wyptldDEfSZKAc6Cpp
-AXAZcDGwDfDndPD80xFxVkTMlnQvMBtYB5zlTG5mZrbliprkI2J0LbPvqmf9q4GrixeRmZnZ1qPU
-o+vNzMysSJzkzczMMspJ3szMLKOc5M3MzDLKSd7MzCyjnOTNzMwyyknezMwso5zkzczMMspJ3szM
-LKOc5M3MzDLKSd7MzCyjnOTNzMwyyknezMwso5zkzczMMspJ3szMLKOc5M3MzDLKSd7MzCyjnOTN
-zMwyyknezMwso5zkzczMMspJ3szMLKOc5M3MzDLKSd7MzCyjnOTNzMwyyknezMwso5zkzczMMspJ
-3szMLKOc5M3MzDLKSd7MzCyjnOTNzMwyyknezMwso5zkzczMMspJ3szMLKOc5M3MzDLKSd7MzCyj
-nOTNzMwyyknezMwso5zkzczMMspJ3szMLKOKmuQl3SlpmaSXc+Z1ljRD0hxJD0vqlLPsIkmvS3pV
-0lHFjM3MzCzrit2Svws4usa8C4FHImJ34C/ARQCSBgAjgT2BY4BbJanI8ZmZmWVWUZN8RDwJrKox
-ezgwKX08CRiRPj4euCci1kfEPOB14IBixmdmZpZlpTgmv2NELAOIiKXAjun8nYGFOestSueZmZnZ
-FmgOA++i1AGYmZllUZsS7HOZpJ0iYpmk7sDydP4ioHfOer3SebUaN25c9ePy8nLKy8sbP1IzM7MS
-qaiooKKioqAyFFHchrSkvsC0iPhCOn0t8G5EXCvpAqBzRFyYDry7G/gySTf9n4F/i1oClFTbbGsh
-xg4dysSyslKHUTRj589n4vTppQ7DzDJGEhGxWQPSi9qSlzQZKAe6SloAXAZcA9wn6QxgPsmIeiJi
-tqR7gdnAOuAsZ3IzM7MtV9QkHxGj61h0RB3rXw1cXbyIzMzMth7NYeCdmZmZFYGTvJmZWUY5yZuZ
-mWWUk7yZmVlGOcmbmZlllJO8mZlZRjnJm5mZZZSTvJmZWUY5yZuZmWWUk7yZmVlGOcmbmZlllJO8
-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
-M1Znko+IG6oeS+oAnAOMAe4BbqhrOzMzM2se6j0mL6kL8CPgZGAS8KWIWNUUgZmZmVlh6jsmfz3w
-deAO4AsR8WGTRWVmZmYFq+9iOD8GegKXAIslfZD+rZb0QdOEZ2ZmZluqvmPym3U1PDMzM2tenMjN
-zMwyyknezMwso/K5rK2ZWbVXZs1i7NChpQ6jKLr27ctVt99e6jDMGo2TvJltFq1dm9l7K4zN8I2h
-bOvk7nozM7OMcpI3MzPLKCd5MzOzjHKSNzMzyygneTMzs4wqaZKX1ErS85KmptOdJc2QNEfSw5I6
-lTI+MzOzlqzULflzgNk50xcCj0TE7sBfgItKEpWZmVkGlCzJS+oFfA34Rc7s4SS3tCX9P6Kp4zIz
-M8uKUrbkbwLOByJn3k4RsQwgIpYCO5YiMDMzsywoSZKXdCywLCJeBFTPqlHPMjMzM6tHqS5rezBw
-vKSvAdsBHST9GlgqaaeIWCapO7C8rgLGjRtX/bi8vJzy8vLiRmxmZtaEKioqqKioKKiMkiT5iLgY
-uBhA0mHAjyPiFEnXAacD1wKnAffXVUZukjczM8uamg3Y8ePHb3YZpR5dX9M1wJGS5gCHp9NmZma2
-BUp+F7qImAnMTB+/CxxR2ojMzMyyobm15M3MzKyROMmbmZlllJO8mZlZRjnJm5mZZZSTvJmZWUY5
-yZuZmWWUk7yZmVlGOcmbmZlllJO8mZlZRjnJm5mZZZSTvJmZWUY5yZuZmWWUk7yZmVlGOcmbmZll
-lJO8mZlZRjnJm5mZZZSTvJmZWUY5yZuZmWWUk7yZmVlGOcmbmZlllJO8mZlZRjnJm5mZZZSTvJmZ
-WUY5yZuZmWWUk7yZmVlGOcmbmZlllJO8mZlZRjnJm5mZZZSTvJmZWUY5yZuZmWVUm1IHYGbWXLwy
-axZjhw4tdRhF07VvX666/fZSh2FNyEnezCyltWuZWFZW6jCKZuy8eaUOwZqYk7w1uTcqP2ToUw+V
-OoyieaPyw1KHYGYGOMlbCXzSZgNlX/tcqcMommfuWlbqEMzMAA+8MzMzyywneTMzs4xykjczM8so
-H5M3a2RrKtd7YKGZNQtO8maNbENrPLDQzJqFknTXS+ol6S+SZkn6p6QfpvM7S5ohaY6khyV1KkV8
-ZmZmWVCqY/LrgR9FxF7AQcDZkvYALgQeiYjdgb8AF5UoPjMzsxavJEk+IpZGxIvp4w+BV4FewHBg
-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
-TkSuQmCC
-"
->
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Examining the survival statistics, the majority of males younger than 10 survived the ship sinking, whereas most males age 10 or older <em>did not survive</em> the ship sinking. Let's continue to build on our previous prediction: If a passenger was female, then we will predict they survive. If a passenger was male and younger than 10, then we will also predict they survive. Otherwise, we will predict they do not survive.<br>
-Fill in the missing code below so that the function will make this prediction.<br>
-<strong>Hint:</strong> You can start your implementation of this function using the prediction code you wrote earlier from <code>predictions_1</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predictions_2</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Model with two features: </span>
-<span class="sd">            - Predict a passenger survived if they are female.</span>
-<span class="sd">            - Predict a passenger survived if they are male and younger than 10. &quot;&quot;&quot;</span>
-    
-    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">passenger</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-        <span class="n">survived</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">if</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span> <span class="ow">or</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
-            <span class="n">survived</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span>
-    
-    <span class="c1"># Return our predictions</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
-
-<span class="c1"># Make the predictions</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions_2</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Question-3">Question 3<a class="anchor-link" href="#Question-3">&#182;</a></h3><p><em>How accurate would a prediction be that all female passengers and all male passengers younger than 10 survived?</em><br>
-<strong>Hint:</strong> Run the code cell below to see the accuracy of this prediction.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+<span class="c1"># Report the final F1 score for training and testing after parameter tuning</span>
+<span class="k">print</span> <span class="s2">&quot;Tuned model has a training F1 score of {:.4f}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predict_labels</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="k">print</span> <span class="s2">&quot;Tuned model has a testing F1 score of {:.4f}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predict_labels</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -12891,7 +12852,11 @@ Fill in the missing code below so that the function will make this prediction.<b
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Predictions have an accuracy of 79.35%.
+<pre>Best model parameters: {&#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;: 1}
+Made predictions in 0.0049 seconds.
+Tuned model has a training F1 score of 0.8825.
+Made predictions in 0.0016 seconds.
+Tuned model has a testing F1 score of 0.7465.
 </pre>
 </div>
 </div>
@@ -12905,7 +12870,7 @@ Fill in the missing code below so that the function will make this prediction.<b
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer</strong>: <em>79.35%</em></p>
+<h3 id="Question-5---Final-F1-Score">Question 5 - Final F<sub>1</sub> Score<a class="anchor-link" href="#Question-5---Final-F1-Score">&#182;</a></h3><p><em>What is the final model's F<sub>1</sub> score for training and testing? How does that score compare to the untuned model?</em></p>
 
 </div>
 </div>
@@ -12915,378 +12880,9 @@ Fill in the missing code below so that the function will make this prediction.<b
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<p>Adding the feature <strong>Age</strong> as a condition in conjunction with <strong>Sex</strong> improves the accuracy by a small margin more than with simply using the feature <strong>Sex</strong> alone. Now it's your turn: Find a series of features and conditions to split the data on to obtain an outcome prediction accuracy of at least 80%. This may require multiple features and multiple levels of conditional statements to succeed. You can use the same feature multiple times with different conditions.<br>
-<strong>Pclass</strong>, <strong>Sex</strong>, <strong>Age</strong>, <strong>SibSp</strong>, and <strong>Parch</strong> are some suggested features to try.</p>
-<p>Use the <code>survival_stats</code> function below to to examine various survival statistics.<br>
-<strong>Hint:</strong> To use mulitple filter conditions, put each condition in the list passed as the last argument. Example: <code>["Sex == 'male'", "Age &lt; 18"]</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">survival_stats</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="s1">&#39;Pclass&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Sex == &#39;male&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;Age &lt; 10&quot;</span><span class="p">])</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-rC1whw8fzsEHH8wvf/lLzjvvPO69914Ajj32WE455ZT2+b/1rW+x6aabMmbMGH7605/22PLce++9
-OeWUU9hjjz1Yd911OeCAA3j66afbp1966aW89a1vZeTIkeyzzz7cf//9ABx99NHMmjWLiRMnsu66
-6zJlypTl1v3UU08xceJERowYwQYbbMBee+3VPq3zbvra5zBjxgzGjh3LN7/5TUaPHs1HPvIRtttu
-O6644or2+ZcuXcrGG2/M7bffzsyZMxk0aBDLli3joosuYuedd+5Qx3e+8x0OO+wwAF5++WVOOOEE
-xo0bx+jRo/n0pz/NSy+91MtfoH4GtiSp3c4778yYMWO44YYblpt25ZVXcvbZZ3PNNdfw4IMPcvXV
-V/e6vgsuuIDzzjuPBQsW8NJLL7WH7wMPPMDkyZP5/ve/z4IFCzjwwAM5+OCDefXVV/nZz37G5ptv
-zmWXXcaiRYs44YQTllvvt7/9bcaOHctTTz3FE088wZlnntk+rbfd1/PmzeOZZ55h1qxZ/OhHP2Ly
-5MlMnTq1w/PcaKON2GmnnTqsb+LEiTzwwAM8/PDDHZ7fBz/4QQBOPPFEHnroIe68804eeugh5syZ
-w+mnn97ra1QvA1uS1MGmm27aoSXc5uKLL+bYY49l2223Ze21167rFpjHHnssW221FWuuuSZHHHEE
-t99+OwAXXXQRBx98MPvssw+DBw/mhBNO4IUXXuAPf/hD+7I97W4fOnQoc+fO5dFHH2Xw4MHsvvvu
-dS0HMHjwYE477TSGDh3KmmuuyaRJk7j00kt58cUXgSKEJ02atNxya6+9NoceeigXXHABAA8++CD3
-338/hxxyCADnnnsu3/nOd1hvvfVYZ511OOmkk9rnXRUMbElSB3PmzGHkyJHLjX/88ccZO3Zs+/C4
-ceN6DcdRNZ3ghg0bxnPPPde+rnHjxrVPiwjGjh3LnDlz6qrxi1/8IltttRX77bcfW2+9NWeddVZd
-ywFstNFGDB06tH14q622YrvttmPatGm88MILXHrppUye3PXNJidNmtQewlOnTuWwww5jzTXXZMGC
-BSxZsoR3vvOdjBw5kpEjR3LggQfy1FNP1V1Xb7w0qSSp3Z///Gcef/xx9txzz+WmjR49mtmzZ7cP
-z5w583X3nt500025++67O4ybPXs2Y8aMAXrfrb3OOuswZcoUpkyZwr333svee+/NLrvswt57782w
-YcNYsmRJ+7zz5s3r8EOjq3UfeeSRTJ06laVLl7L99tvzxjd2fffnCRMmsGDBAu644w4uvPBCvvvd
-7wKw4YYbMmzYMO655x5Gjx5d34uwgmxhS5JYvHgxl112GZMmTeKoo45iu+22W26eI444gv/5n//h
-vvvuY8mSJSt1fPaII47g8ssv59prr+XVV19lypQprLXWWuy2225A0TLv6fzuyy+/vP1Y8vDhwxky
-ZAiDBhWRttNOOzF16lSWLVvGlVdeyYwZM3qt58gjj2T69Omcc845y7Wua/ciDBkyhMMPP5wvfOEL
-LFy4kAkTJgDFj4CPf/zjfP7zn2fBggVAsadi+vTpK/Cq9MzAlqQBbOLEiay33npsvvnmfP3rX+eE
-E07gJz/5Sfv02tboAQccwOc//3n22WcfttlmG/bdd98e191TK3mbbbbhF7/4Bf/yL//CRhttxOWX
-X860adMYMqTY8XvSSSdxxhlnMHLkSM4+++zlln/wwQd573vfy/Dhw9l99935zGc+095T/Hvf+x6X
-XnopI0aM4IILLuAf/uEfen0dRo0axW677cbNN9/MBz7wgR6fx6RJk7jmmms44ogj2n8kAJx11lls
-vfXWvOtd72L99ddnv/3244EHHuh12/XyftiS1EDjx4/vcLeuLUaNWqFzpVfUuE024bF58xq2fq0a
-nd8XbbwftiT1E4apXi93iUuSVAG2sCWpn7nzjjt4+ZVXml1G06wxdCg7vu1tzS6j3zGwJamfefmV
-Vxjf7CKa6NYB/GOlJ+4SlySpAgxsSZIqwMCWJKkCDGxJkirAwJYkNdynvvENvlZzBbVV5bTTTuOo
-o45a5evtj+wlLkl9aNSYUcyf07grnW2y8UjmXX5V3fPfePvtnPjv/849jzzCkMGD2XbLLfnu8cfz
-zm23XaV1nXPSSat0fbVe7w1IqsbAlqQ+NH/OfGht4Ppbl7+PdXcWP/88E48/nh9+6Usc/t738vIr
-r3DDbbexZs2tJ+uVmQMmOJvFXeKSNEA9MGsWEcEREyYQEay5xhq8d9ddeevWW3Pauedy1CmntM87
-c+5cBu2yC8uWLQNg709+kpPPOYc9PvYx1tlzT77185+z89FHd1j/d6ZO5bATTgDg2NNO45T/+i8A
-tjviCK646ab2+ZYuXcrG++3H7fffD8Bdd93F7rvvzogRI3j729/e4W5bjz32GC0tLay33nrsv//+
-PPnkk415cfohA1uSBqhtNt+cwYMG8eHWVq78wx94ZvHiDtM7t5g7D//id7/jv08+mcUzZvDJ97+f
-B2bN4uG//719+gVXXcUHDzhgue1O2m8/pl55ZfvwlX/8Ixutvz47vfnNzHniCf71X/+VU045hYUL
-FzJlyhT+8R//kaeeegqAyZMns/POO/Pkk09y8sknc955563061AVBrYkDVDD11mHG889l0GDBvHP
-Z57JRhMmcNgJJ/DE0/XtVv/wwQfzli22YNCgQaz7hjdw6F57ccFVxfHzB2fN4v6ZM5m4557LLTf5
-gAO49IYbePGll4Ai2Cftvz8A5195JXvssQf7l8P77rsv48eP54orrmD27NnceuutnH766QwdOpQ9
-99yTiRMnroqXohIMbEkawN68xRb85JRTmHXZZdzzy1/y+IIFfL6L+093Zewmm3QYnrTffu2BPfWq
-qzispYW11lxzueW2GjOG7bbckmk33MALL77IpTfc0N4Snzl3LldffTUjR45k5MiRjBgxgptuuom5
-c+fy+OOPM2LECNZee+32dY0bN+71PvXKsdOZJAmAbcaN45iDDuJHv/kN73zLW1jy4ovt0+Z2cay4
-8y7yCbvuyoJnnuGOBx7gwunT+e7xx3e7rSMnTGDqVVexdNkytn/jG9lys82A4kfA+973Pn71q18t
-t8ysWbNYuHAhL7zwQntoz5o1i0GDBkbbc2A8S0nScu5/7DHOPv985jzxBACz583jgunT2W2HHXjb
-m97E9bfdxux583j2uef4Rh3HiocMGcLh++7LF77/fRYuWsSEXXftdt4j99uP6TffzDmXXMLkcvc3
-wIcOPJAbbriB6dOns2zZMl588UVmzJjB448/zuabb8748eM59dRTeeWVV7jxxhuZNm3ayr8QFWFg
-S9IANXyddbjl7rvZ9dhjGb7XXrz7ox9lx623Zspxx/HeXXflAxMmsOPkyex8zDHLHYvu7hSuSfvv
-zzV//jNHTJjQoeXbef5RG27IbjvswM13380HJkxoHz9mk02YMmUKZ555JhtttBHjxo1jypQp7b3T
-zz//fG6++WY22GADzjjjDI455phV9XL0e5GZza6hWxGR/bk+SerN+PHjufXWW9uH+9uFU/qjWyle
-t9VZ5/dFm4ggM7v8NeQxbEnqQ/P+Pq/XeW699dYBfT9sdc1d4pIkVUBDAzsifhwR8yPizppx34yI
-+yLi9oj434hYt5E1SJK0Omh0C/unwP6dxk0Hts/MnYAHgS81uAZJkiqvoYGdmTcCCzuNuzozl5WD
-NwNjGlmDJEmrg2Yfw/4I8Lsm1yBJUr/XtMCOiK8Ar2Tm1GbVIElSVTTltK6I+DDwPmCf3uZtbW1t
-f9zS0kJLS0ujypKkVW706NErfE7xzJkzGThXyF7eTFb/a4SPHj0agOuuu47rrruurmUafuGUiNgC
-mJaZO5TDBwDfBt6TmU/1sqwXTpE04EQEA/mbL4CB+t3f04VTGhrYETEVaAE2AOYDpwJfBtYA2sL6
-5sz8dDfLG9iSBhwD28Duclp/flEMbEkDkYFtYHc1rdm9xCVJUh0MbEmSKsDAliSpAgxsSZIqwMCW
-JKkCDGxJkirAwJYkqQIMbEmSKsDAliSpAgxsSZIqwMCWJKkCDGxJkirAwJYkqQIMbEmSKsDAliSp
-AgxsSZIqwMCWJKkCDGxJkirAwJYkqQIMbEmSKsDAliSpAgxsSZIqwMCWJKkCDGxJkirAwJYkqQIM
-bEmSKsDAliSpAgxsSZIqwMCWJKkCDGxJkirAwJYkqQIMbEmSKsDAliSpAgxsSZIqwMCWJKkCDGxJ
-kirAwJYkqQIMbEmSKsDAliSpAhoa2BHx44iYHxF31owbERHTI+L+iLgqItZrZA2SJK0OGt3C/imw
-f6dxJwFXZ+abgd8DX2pwDZIkVV5DAzszbwQWdhp9KHBe+fg84LBG1iBJ0uqgGcewN87M+QCZOQ/Y
-uAk1SJJUKf2h01k2uwBJkvq7IU3Y5vyI2CQz50fEKOCJnmZubW1tf9zS0kJLS0tjq5MkqY9cd911
-XHfddXXNG5mNbeBGxBbAtMzcoRw+C3g6M8+KiBOBEZl5UjfLZqPrk6T+JiIG9K7HAAbqd39EkJnR
-5bRGvigRMRVoATYA5gOnAr8BLgbGAjOBIzLzmW6WN7AlDTgGtoHd5bT+/KIY2JIGIgPbwO5qWn/o
-dCZJknphYEuSVAEGtiRJFWBgS5JUAQa2JEkVYGBLklQBBrYkSRVgYEuSVAEGtiRJFWBgS5JUAQa2
-JEkVYGBLklQBvQZ2RKwTEYPKx9tExCERMbTxpUmSpDb1tLCvB9aKiM2A6cBRwP80sihJktRRPYEd
-mbkEeD/wg8w8HNi+sWVJkqRadQV2ROwGfBC4vBw3uHElSZKkzuoJ7OOALwG/zsx7IuKNwLWNLUuS
-JNWKzOx+YsRg4KzMPKHvSuqw/eypPklaHUUEA/mbL4CB+t0fEWRmdDWtxxZ2Zi4F9mhIVZIkqW5D
-6pjntoi4FLgYeL5tZGb+qmFVSZKkDuoJ7LWAp4B9asYlYGBLq6lRY0Yxf878ZpfRNJtstgnz/j6v
-2WVIHfR4DLvZPIYtNUdEQGuzq2ii1uYeQ/UYtsewu5pWz5XOtomIayLi7nJ4x4g4eVUXKUmSulfP
-aV3nUpzW9QpAZt4JHNnIoiRJUkf1BPawzPxTp3GvNqIYSZLUtXoC+8mI2IqioxkR8U/A3IZWJUmS
-Oqinl/hngB8Bb4mIOcCjwIcaWpUkSeqg18DOzEeA90bEOsCgzFzc+LIkSVKtXgM7Io7vNAzwLPCX
-zLy9QXVJkqQa9RzDHg98Etis/PcJ4ADg3Ij4YgNrkyRJpXqOYY8B3pGZzwFExKkUt9l8D/AX4JuN
-K0+SJEF9LeyNgZdqhl8BNsnMFzqNlyRJDVJPC/t84JaI+G05PBGYWnZCu7dhlUmSpHb19BI/IyKu
-BN5djvpkZt5aPv5gwyqTJEnt6mlhA/wVmNM2f0RsnpmzGlaVJEnqoJ7Tuj4LnArMB5ZS3kgF2LGx
-pUmSpDb1tLCPA96cmU81uhhJktS1enqJz6a4UIokSWqSelrYjwDXRcTl1JzGlZlnN6wqSZLUQT2B
-Pav8t0b5b5WIiH8FPgosA+4Cjs3Ml1fV+iVJWp3Uc1rXaQARMSwzl6yKjUbEpsBngbdk5ssR8Uvg
-SOBnq2L9kiStbno9hh0Ru0XEvcDfyuG3RcQPVsG2BwPrRMQQYBjw+CpYpyRJq6V6Op19F9gfeAog
-M++guI7465aZjwPfptjVPgd4JjOvXpl1SpK0OqvrwimZObu8rWabpSuz0YhYHzgUGEfRA/2SiJic
-mVM7z9va2tr+uKWlhZaWlpXZtCSpvxvcfitn1agnsGdHxLuBjIihFOdl37eS230v8EhmPg0QEb+i
-uPRpj4EtSRoAlgKtzS6iSVq7n1TPLvFPAp+huBf2HGCncnhlzALeFRFrRfEzal9W/keAJEmrrXp6
-iT/JKr7JR2b+KSIuAW6juF3nbcCPVuU2JElandTTS/ybEbFuRAyNiGsiYkFEfGhlN5yZp2Xmtpm5
-Y2Yek5mvrOw6JUlaXdWzS3y/zFwEHAw8BmwNfKGRRUmSpI7qCey23eYHARdnptcVlySpj9XTS/yy
-iPgb8ALwqYjYCHixsWVJkqRavbawM/MkilOuxpfHmZ+nOIdakiT1kXo6nR0OvJKZSyPiZOAXwKYN
-r0ySJLWVNv5eAAANpUlEQVSr5xj2VzNzcUTsQXHBkx8D5zS2LEmSVKuewG67DOlBwI8y83JW4W02
-JUlS7+oJ7DkR8UPgA8AVEbFmnctJkqRVpJ7gPQK4Ctg/M58BRuJ52JIk9al6eokvycxfAc9GxObA
-UMp7Y0uSpL5RTy/xQyLiQeBRYEb5/+8aXZgkSXpNPbvEzwDeBTyQmVtS9BS/uaFVSZKkDuoJ7Fcy
-8ylgUEQMysxrgfENrkuSJNWo59Kkz0TEG4DrgfMj4gmKq51JkqQ+Uk8L+1BgCfCvwJXAw8DERhYl
-SZI66rGFHRGHUdxO867MvAo4r0+qkiRJHXTbwo6IH1C0qjcAzoiIr/ZZVZIkqYOeWtjvAd5W3vRj
-GHADRY9xSZLUx3o6hv1yZi6F4uIpQPRNSZIkqbOeWthviYg7y8cBbFUOB5CZuWPDq5MkSUDPgb1t
-n1UhSZJ61G1gZ+bMvixEkiR1z9tkSpJUAQa2JEkV0NN52NeU/5/Vd+VIkqSu9NTpbHREvBs4JCIu
-pNNpXZn514ZWJkmS2vUU2KcAXwXGAGd3mpbAPo0qSpIkddRTL/FLgEsi4quZ6RXOJElqol5vr5mZ
-Z0TEIRSXKgW4LjMva2xZkiSpVq+9xCPi68BxwL3lv+Mi4sxGFyZJkl7TawsbOAjYKTOXAUTEecBt
-wJcbWZgkSXpNvedhr1/zeL1GFCJJkrpXTwv768BtEXEtxald7wFOamhVkiSpg3o6nV0QEdcBO5ej
-TszMeQ2tSpIkdVBPC5vMnAtc2uBaJElSN7yWuCRJFWBgS5JUAT0GdkQMjoi/9VUxkiSpaz0GdmYu
-Be6PiM37qB5JktSFejqdjQDuiYg/Ac+3jczMQ1ZmwxGxHvDfwFuBZcBHMvOWlVmnJEmrq3oC+6sN
-2vb3gCsy8/CIGAIMa9B2JEmqvHrOw54REeOAN2Xm1RExDBi8MhuNiHWBPTPzw+U2XgUWrcw6JUla
-ndVz84+PA5cAPyxHbQb8ZiW3uyXwZET8NCL+GhE/ioi1V3KdkiStturZJf4ZYBfgFoDMfDAiNl4F
-230H8JnMvDUivktxudNTO8/Y2tra/rilpYWWlpaV3LQkSf3Eo8Bj9c1aT2C/lJkvRwQA5fHmfJ2l
-tfk7MDszby2HLwFO7GrG2sCWJGm1smX5r82M7met58IpMyLiy8DaETEBuBiYtjL1ZeZ8YHZEbFOO
-2pfiXtuSJKkL9bSwTwI+CtwFfAK4guJ0rJX1OeD8iBgKPAIcuwrWKUnSaqmeXuLLIuI8imPYCdyf
-mSu7S5zMvIPX7gAmSZJ60GtgR8RBwH8BD1PcD3vLiPhEZv6u0cVJkqRCPbvEvw3snZkPAUTEVsDl
-gIEtSVIfqafT2eK2sC49AixuUD2SJKkL3bawI+L95cNbI+IK4CKKY9iHA3/ug9okSVKpp13iE2se
-zwf2Kh8vALwqmSRJfajbwM5MT7OSJKmfqKeX+JbAZ4Etaudf2dtrSpKk+tXTS/w3wI8prm62rLHl
-SJKkrtQT2C9m5vcbXokkSepWPYH9vYg4FZgOvNQ2MjP/2rCqJElSB/UE9g7AUcA+vLZLPMthSZLU
-B+oJ7MOBN2bmy40uRpIkda2eK53dDazf6EIkSVL36mlhrw/8LSL+TMdj2J7WJUlSH6knsE9teBWS
-JKlH9dwPe0ZfFCJJkrpXz5XOFlP0CgdYAxgKPJ+Z6zayMEmS9Jp6WtjD2x5HRACHAu9qZFGSJKmj
-enqJt8vCb4D9G1SPJEnqQj27xN9fMzgIGA+82LCKJEnScurpJV57X+xXgccodotLkqQ+Us8xbO+L
-LUlSk3Ub2BFxSg/LZWae0YB6JElSF3pqYT/fxbh1gI8CGwAGtiRJfaTbwM7Mb7c9jojhwHHAscCF
-wLe7W06SJK16PR7DjoiRwPHAB4HzgHdk5sK+KEySJL2mp2PY3wLeD/wI2CEzn+uzqiRJUgc9XTjl
-34BNgZOBxyNiUflvcUQs6pvyJEkS9HwMe4WugiZJkhrHUJYkqQIMbEmSKsDAliSpAgxsSZIqwMCW
-JKkCDGxJkirAwJYkqQIMbEmSKsDAliSpApoa2BExKCL+GhGXNrMOSZL6u2a3sI8D7m1yDZIk9XtN
-C+yIGAO8D/jvZtUgSVJVNLOF/R3gC0A2sQZJkiqhKYEdEQcB8zPzdiDKf5IkqRvd3l6zwXYHDomI
-9wFrA8Mj4meZeXTnGVtbW9sft7S00NLS0lc1SpLUWI8Cj9U3a2Q2d490ROwF/FtmHtLFtGx2fdJA
-FBHQ2uwqmqgVmvndExED+lhhwMB9/7VCZna517nZvcQlSVIdmrVLvF1mzgBmNLsOSZL6M1vYkiRV
-gIEtSVIFGNiSJFWAgS1JUgUY2JIkVYCBLUlSBRjYkiRVgIEtSVIFGNiSJFWAgS1JUgUY2JIkVYCB
-LUlSBRjYkiRVgIEtSVIFGNiSJFWAgS1JUgUY2JIkVYCBLUlSBRjYkiRVgIEtSVIFGNiSJFWAgS1J
-UgUY2JIkVYCBLUlSBRjYkiRVgIEtSVIFGNiSJFWAgS1JUgUY2JIkVYCBLUlSBRjYkiRVgIEtSVIF
-GNiSJFWAgS1JUgUY2JIkVYCBLUlSBRjYkiRVgIEtSVIFGNiSJFVAUwI7IsZExO8j4p6IuCsiPteM
-OiRJqoohTdruq8DxmXl7RLwB+EtETM/MvzWpHkmS+rWmtLAzc15m3l4+fg64D9isGbVIklQFTT+G
-HRFbADsBtzS3EkmS+q+mBna5O/wS4LiypS1JkrrQrGPYRMQQirD+eWb+trv5Wltb2x+3tLTQ0tLS
-8Nr6i1FjRjF/zvxml9EUm2y2CfP+Pq/ZZUhSYz0KPFbfrJGZjSyl+w1H/Ax4MjOP72GebFZ9/UFE
-QGuzq2iSVhjIf/tmG9DvPWj6+y8iGMjv/oCB+/5rhcyMriY167Su3YEPAvtExG0R8deIOKAZtUiS
-VAVN2SWemTcBg5uxbUmSqqjpvcQlSVLvDGxJkirAwJYkqQIMbEmSKsDAliSpAgxsSZIqwMCWJKkC
-DGxJkirAwJYkqQIMbEmSKsDAliSpAgxsSZIqwMCWJKkCDGxJkirAwJYkqQIMbEmSKsDAliSpAgxs
-SZIqwMCWJKkCDGxJkirAwJYkqQIMbEmSKsDAliSpAgxsSZIqwMCWJKkCDGxJkirAwJYkqQIMbEmS
-KsDAliSpAgxsSZIqwMCWJKkCDGxJkirAwJYkqQIMbEmSKsDAliSpAgxsSZIqwMCWJKkCDGxJkirA
-wJYkqQKaFtgRcUBE/C0iHoiIE5tVhyRJVdCUwI6IQcB/APsD2wOTIuItzahFkqQqaFYLexfgwcyc
-mZmvABcChzapFkmS+r1mBfZmwOya4b+X4yRJUhfsdCZJUgUMadJ25wCb1wyPKcctJyL6pKB+q7XZ
-BTTPgP/bN1trswtorma//wb8u7+12QX0P5GZfb/RiMHA/cC+wFzgT8CkzLyvz4uRJKkCmtLCzsyl
-EfEvwHSK3fI/NqwlSepeU1rYkiRpxdjprB+KiB9HxPyIuLPZtWhgiYgxEfH7iLgnIu6KiM81uyYN
-DBGxZkTcEhG3le+9U5tdU39jC7sfiog9gOeAn2Xmjs2uRwNHRIwCRmXm7RHxBuAvwKGZ+bcml6YB
-ICKGZeaSsp/TTcDnMvNPza6rv7CF3Q9l5o3AwmbXoYEnM+dl5u3l4+eA+/AaCeojmbmkfLgmRR8r
-W5Q1DGxJXYqILYCdgFuaW4kGiogYFBG3AfOA/8vMPze7pv7EwJa0nHJ3+CXAcWVLW2q4zFyWmW+n
-uDbHrhGxXbNr6k8MbEkdRMQQirD+eWb+ttn1aODJzEXAtcABza6lPzGw+6/Aix2pOX4C3JuZ32t2
-IRo4ImLDiFivfLw2MAGws2MNA7sfioipwB+AbSJiVkQc2+yaNDBExO7AB4F9ytNr/hoRtnLUF0YD
-10bE7RT9Jq7KzCuaXFO/4mldkiRVgC1sSZIqwMCWJKkCDGxJkirAwJYkqQIMbEmSKsDAliSpAgxs
-aTUWEUvLc6nviohfRsRaPcx7akQc35f1SaqfgS2t3p7PzHdk5g7AK8Anm12QpNfHwJYGjhuArQEi
-4uiIuKO8mtl5nWeMiI9FxJ/K6Re3tcwj4vCytX5bRFxXjtsuIm4pW/K3R8RWffmkpIHCK51Jq7GI
-WJyZw2tu6PE7iuD+NfCuzFwYEetn5jMRcSqwODPPjogRmbmwXMcZwLzM/M+IuBPYPzPnRsS6mbko
-Ir4P/DEzLyi3MzgzX2rOM5ZWX7awpdXb2hHxV+BPwGPAj4F9gIvaAjkzn+liuR0j4voyoCcD25fj
-bwTOi4iPAUPKcX8EvhIRXwC2MKylxhjS+yySKmxJZr6jdkREXTeB+ylwSGbeHRHHAHsBZOanI2Jn
-4GDgLxHxjrJlfXM57oqI+OfMvG6VPgtJtrCl1VxX6fx74PCIGAkQESO6mOcNwLyIGEpx9y7Ked+Y
-mX/OzFOBJ4CxEbFlZj6amf8O/BbYcZU/C0m2sKXV3HKdVDLz3oj4GjAjIl4FbgM+0mm2Uyh2oz9B
-cavD4eX4b0XEm8rHV2fmnRFxYkQcRdELfS7wtQY8D2nAs9OZJEkV4C5xSZIqwMCWJKkCDGxJkirA
-wJYkqQIMbEmSKsDAliSpAgxsSZIqwMCWJKkC/j8ih7GBNFPyXgAAAABJRU5ErkJggg==
-"
->
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>After exploring the survival statistics visualization, fill in the missing code below so that the function will make your prediction.<br>
-Make sure to keep track of the various features and conditions you tried before arriving at your final prediction model.<br>
-<strong>Hint:</strong> You can start your implementation of this function using the prediction code you wrote earlier from <code>predictions_2</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predictions_3</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Model with multiple features. Makes a prediction with an accuracy of at least 80%. &quot;&quot;&quot;</span>
-    
-    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">passenger</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-        <span class="n">survived</span> <span class="o">=</span> <span class="mi">0</span>
-        
-        <span class="k">if</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Pclass&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">:</span>
-                <span class="n">survived</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="ow">and</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Pclass&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">survived</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="k">elif</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Fare&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">:</span>
-                <span class="n">survived</span> <span class="o">=</span> <span class="mi">1</span>
-
-        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span>
-    
-    <span class="c1"># Return our predictions</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
-
-<span class="c1"># Make the predictions</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions_3</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Question-4">Question 4<a class="anchor-link" href="#Question-4">&#182;</a></h3><p><em>Describe the steps you took to implement the final prediction model so that it got an accuracy of at least 80%. What features did you look at? Were certain features more informative than others? Which conditions did you use to split the survival outcomes in the data? How accurate are your predictions?</em><br>
-<strong>Hint:</strong> Run the code cell below to see the accuracy of your predictions.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Predictions have an accuracy of 80.25%.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer</strong>: <em>I investigated the survivability of different segments of passengers. First, based on sex and age. Then I took into account the Pclass and saw that women over the age of 20 in class 3 had a lower chance of surviving. I also noticed that passengers under 10 were more likely to survive if they were not in class 3. Then I checked to see if there were any useful patterns in Parch and SibSp for males. Their survival was higher when the Parch and SibSp was 0, but this didn't actually improve the accuracy (probably because the survivors were overlapping with the ones already selected by previous conditions), so I removed it. Then I investigated the fare and I saw that the survivability for male passengers who paid more than 500 was high, so I included that condition as well.</em></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h1><p>After several iterations of exploring and conditioning on the data, you have built a useful algorithm for predicting the survival of each passenger aboard the RMS Titanic. The technique applied in this project is a manual implementation of a simple machine learning model, the <em>decision tree</em>. A decision tree splits a set of data into smaller and smaller groups (called <em>nodes</em>), by one feature at a time. Each time a subset of the data is split, our predictions become more accurate if each of the resulting subgroups are more homogeneous (contain similar labels) than before. The advantage of having a computer do things for us is that it will be more exhaustive and more precise than our manual exploration above. <a href="http://www.r2d3.us/visual-intro-to-machine-learning-part-1/">This link</a> provides another introduction into machine learning using a decision tree.</p>
-<p>A decision tree is just one of many models that come from <em>supervised learning</em>. In supervised learning, we attempt to use features of the data to predict or model things with objective outcome labels. That is to say, each of our data points has a known outcome value, such as a categorical, discrete label like <code>'Survived'</code>, or a numerical, continuous value like predicting the price of a house.</p>
-<h3 id="Question-5">Question 5<a class="anchor-link" href="#Question-5">&#182;</a></h3><p><em>Think of a real-world scenario where supervised learning could be applied. What would be the outcome variable that you are trying to predict? Name two features about the data used in this scenario that might be helpful for making the predictions.</em></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer</strong>: <em>We could use machine learning to predict energy consumption in a city. 2 useful features to predict that may be the time of the day and the average outsite temperature.</em></p>
+<p><strong>Answer: </strong></p>
+<p>The final model's F1 scores for training and testing are the same as the untuned model's scores. 
+The reason for this is that the default values of the tested parameters (kernel and C) were already the best values for this model, given this dataset</p>
 
 </div>
 </div>
