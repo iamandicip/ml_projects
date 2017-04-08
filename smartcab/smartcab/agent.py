@@ -37,8 +37,14 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Update epsilon using a decay function of your choice
+        self.epsilon = self.epsilon - 0.05
+
         # Update additional class parameters as needed
+
         # If 'testing' is True, set epsilon and alpha to 0
+        if testing:
+            self.epsilon = 0
+            self.alpha = 0
 
         return None
 
@@ -56,7 +62,7 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set 'state' as a tuple of relevant data for the agent
-        state = (waypoint, inputs)
+        state = (waypoint, inputs['light'], inputs['left'], inputs['right'], inputs['oncoming'])
 
         return state
 
@@ -69,8 +75,7 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Calculate the maximum Q-value of all actions for a given state
-
-        maxQ = None
+        maxQ = max(self.Q[state].values())
 
         return maxQ
 
@@ -84,6 +89,8 @@ class LearningAgent(Agent):
         # When learning, check if the 'state' is not in the Q-table
         # If it is not, create a new dictionary for that state
         #   Then, for each action available, set the initial Q-value to 0.0
+        if self.learning and state not in self.Q.keys():
+            self.Q[state] = {a : 0.0 for a in self.valid_actions}
 
         return
 
@@ -103,14 +110,25 @@ class LearningAgent(Agent):
         # When not learning, choose a random action
         # When learning, choose a random action with 'epsilon' probability
         #   Otherwise, choose an action with the highest Q-value for the current state
-        if self.learning:
-            pass
+        if self.learning and self.epsilon < random.random():
+            max_q = self.get_maxQ(self.state)
+
+            for k, v in self.Q[state].iteritems():
+                if max_q == v:
+                    action = k
+                    break
+            # action = get_dict_key_with_max_value(self.Q.get(state))
         else:
-            rand_idx = random.randint(0, len(self.valid_actions) - 1)
-            action = self.valid_actions[rand_idx]
+            action = self.choose_random_action()
 
         return action
 
+    def get_dict_key_with_max_value(action_values):
+        return max(action_values.iterkeys(), key=(lambda key: action_values[key]))
+
+    def choose_random_action(self):
+        rand_idx = random.randint(0, len(self.valid_actions) - 1)
+        return self.valid_actions[rand_idx]
 
     def learn(self, state, action, reward):
         """ The learn function is called after the agent completes an action and
@@ -122,7 +140,8 @@ class LearningAgent(Agent):
         ###########
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
-
+        q_t = self.Q[state][action]
+        self.Q[state][action] = q_t + self.alpha * (reward - q_t)
         return
 
 
@@ -158,7 +177,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent)
+    agent = env.create_agent(LearningAgent, learning=True)
 
     ##############
     # Follow the driving agent
