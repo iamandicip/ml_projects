@@ -13181,6 +13181,12 @@ The <code>waypoint</code> and <code>deadline</code> are not important when judgi
 <p>For <strong>eficiency</strong>, the <code>waypoint</code> and <code>deadline</code> are important.
 The <code>inputs</code> are not important when judging efficiency. All that's relevant for <strong>efficiency</strong> is getting to the waypoint before the deadline runs out.</p>
 <p>For learning both <strong>safety</strong> and <strong>efficiency</strong>, the <code>inputs</code> and <code>waypoint</code> are the most important. If we also include the <code>deadline</code>, the size of the possible states will be bigger, and the agent may not be able to learn all the states.</p>
+<p>These features are appropriate because they allow the cab to take the decision on which action to do next.</p>
+<p>The <code>waypoint</code> input is important for the cab to know the direction it should go next towards the destination.</p>
+<p>The <code>light</code> input is important for the cab to avoid a violation when it wants to go <code>forward</code>.</p>
+<p>The <code>right</code> input is important to avoid an accident when its value is <code>forward</code> and the cab wants to go <code>forward</code> or <code>left</code>.</p>
+<p>The <code>left</code> input is important to avoid an accident when its value is <code>forward</code> and the cab wants to go <code>forward</code> or <code>right</code>.</p>
+<p>The <code>oncoming</code> input is important to avoid an accident when its value is <code>forward</code> or <code>right</code> and the cab wants to go <code>left</code>.</p>
 
 </div>
 </div>
@@ -13214,7 +13220,8 @@ The <code>inputs</code> are not important when judging efficiency. All that's re
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>With the state defined above, the size of the state space would be 2<sup>5</sup>, meaning 32. It is possible that the agent should learn a policy for each possible state if there are 20 trials with a reasonable time deadline set.</p>
+<p>With the state defined above, the size of the state space would be (4^3 <em> 2 </em> 3) = 384.
+It is possible that the agent should learn a policy for each possible state if there are 20 trials with a reasonable time deadline set (let's say, greater than 50).</p>
 
 </div>
 </div>
@@ -16339,9 +16346,9 @@ ThxgmZmZmZmZ1YkDLDMzMzMzszr5P27qDFJGLezXAAAAAElFTkSuQmCC
 <p><strong>Answer:</strong></p>
 <p>Some policy examples:</p>
 <ul>
-<li>for the state {'waypoint'='forward', 'light'='green', 'left'=True, 'right'=False, 'oncoming'=True}, the policy should be : 'forward'</li>
-<li>for the state {'waypoint'='right', 'light'='red', 'left'=False, 'right'=True, 'oncoming'=False}, the policy should be : None</li>
-<li>for the state {'waypoint'='left', 'light'='green', 'left'=None, 'right'=True, 'oncoming'=False}, the policy should be : 'left'</li>
+<li>for the state {'waypoint'='forward', 'light'='green', 'left'=None, 'right'=False, 'oncoming'='forward'}, the policy should be : 'forward'</li>
+<li>for the state {'waypoint'='right', 'light'='red', 'left'='forward', 'right'='forward', 'oncoming'=None}, the policy should be : None</li>
+<li>for the state {'waypoint'='left', 'light'='green', 'left'=None, 'right'='right', 'oncoming'=None}, the policy should be : 'left'</li>
 </ul>
 <p>Not all policies in the <code>sim_improved_learning.txt</code> file are correct. For example:</p>
 <p>('right', 'green', 'left', 'forward', None)
@@ -16358,18 +16365,18 @@ ThxgmZmZmZmZ1YkDLDMzMzMzszr5P27qDFJGLezXAAAAAElFTkSuQmCC
 <p>The waypoint is to the right, the light is green, while the policy is 'forward'. An optimal policy would be 'right'.</p>
 <p>It's possible that for some of these states, the agent didn't have enough trials to learn the all the optimal policies.</p>
 <p>However, most policies in the file are correct. For example:</p>
-<p>('right', 'green', 'forward', 'forward', 'forward')
- -- forward : 0.00
- -- None : 0.00
- -- right : 0.63
- -- left : 0.00</p>
-<p>The correct policy is 'right', because the waypoint is 'right' and the light is 'green'.</p>
-<p>('right', 'red', None, 'forward', 'right')
- -- forward : -3.95
- -- None : 0.50
- -- right : 0.00
- -- left : 0.00</p>
-<p>The correct policy is None, because the light is 'red'.</p>
+<p>('forward', 'green', 'left', None, 'left')
+ -- forward : 1.70
+ -- None : 0.11
+ -- right : 0.09
+ -- left : 0.07</p>
+<p>The correct policy is 'forward', because the waypoint is 'forward' and the light is 'green'.</p>
+<p>('left', 'red', None, None, 'left')
+ -- forward : -7.62
+ -- None : 2.07
+ -- right : 0.65
+ -- left : -5.02</p>
+<p>The correct policy is None, because the light is 'red' and the waypoint is 'left'.</p>
 
 </div>
 </div>
@@ -16405,6 +16412,9 @@ The use of future rewards doesn't work in this project because:</p>
 <ul>
 <li>the smartcab doesn't have access to the rewards for the future states</li>
 <li>the environment is dynamic, constantly changing. This means it is possible that if at time t, the best next action would be 'forward', at time t+1, the best action can be None, if, for example, the light changed from 'green' to 'red'.</li>
+<li>the rewards for the same action are randomly initialized and then change after each action of the agent.</li>
+<li>the smartcab doesn't know anything about the states of the other grid cells except the immediate next step.</li>
+<li>the environment already uses a planner to determine the next waypoint.</li>
 </ul>
 
 </div>

@@ -118,11 +118,12 @@ class LearningAgent(Agent):
         if self.learning and self.epsilon < random.random():
             max_q = self.get_maxQ(self.state)
 
-            for k, v in self.Q[state].iteritems():
-                if max_q == v:
-                    action = k
-                    break
-            # action = get_dict_key_with_max_value(self.Q.get(state))
+            #save all the actions with the same maximum Q-value in an array
+            actions_options = [k for k,v in self.Q[state].iteritems() if v == max_q]
+
+            #choose a random action if all have the same maximum Q-value
+            action = random.choice(actions_options)
+
         else:
             action = random.choice(self.valid_actions)
 
@@ -141,8 +142,10 @@ class LearningAgent(Agent):
         ###########
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
-        q_t = self.Q[state][action]
-        self.Q[state][action] = q_t + self.alpha * (reward - q_t)
+        if self.learning:
+            q_t = self.Q[state][action]
+            self.Q[state][action] = q_t + self.alpha * (reward - q_t)
+
         return
 
 
@@ -170,7 +173,7 @@ def run():
     #   verbose     - set to True to display additional output from the simulation
     #   num_dummies - discrete number of dummy agents in the environment, default is 100
     #   grid_size   - discrete number of intersections (columns, rows), default is (8, 6)
-    env = Environment()
+    env = Environment(verbose = True)
 
     ##############
     # Create the driving agent
