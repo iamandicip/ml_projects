@@ -49,6 +49,8 @@ def get_data_frame(symbol, start_date, end_date, dropna=False):
 
   data_frame = data_frame.join(symbol_data_frame)
 
+  data_frame = fill_missing_values(data_frame)
+
   if(dropna == True):
     return data_frame.dropna()
   else:
@@ -57,16 +59,23 @@ def get_data_frame(symbol, start_date, end_date, dropna=False):
 def spy_data_frame(start_date, end_date):
   return get_data_frame('SPY', start_date, end_date, dropna=True)
 
-def get_data_frame_for_symbols(symbols, start_date, end_date, dropspy=False):
+def get_data_frame_for_symbols(symbols, start_date, end_date, include_spy=True):
   df = spy_data_frame(start_date, end_date)
 
   for symbol in symbols:
     df = add_symbol_to_data_frame(df, symbol)
 
-  if(dropspy == True):
+  if(not include_spy):
     df = df.drop('SPY', axis=1)
 
   return df
+
+def fill_missing_values(df_data):
+    """Fill missing values in data frame, in place."""
+    df_data.fillna(method="ffill", inplace=True)
+    df_data.fillna(method="bfill", inplace=True)
+
+    return df_data
 
 def normalize_data(df):
     return df / df.ix[0, :]
@@ -81,6 +90,22 @@ def compute_cummulative_returns(data_frame):
   cummulative_returns = data_frame.copy()
   cummulative_returns = (data_frame / data_frame.ix[0,:].values) - 1
   return cummulative_returns
+
+def get_rolling_mean(values, window):
+    """Return rolling mean of given values, using specified window size."""
+    return values.rolling(window=window).mean()
+
+
+def get_rolling_std(values, window):
+    """Return rolling standard deviation of given values, using specified window size."""
+    return values.rolling(window=window).std()
+
+
+def get_bollinger_bands(rm, rstd):
+    """Return upper and lower Bollinger Bands."""
+    upper_band = rm + 2 * rstd
+    lower_band = rm - 2 * rstd
+    return upper_band, lower_band
 
 if __name__ == '__main__':
     start = datetime.datetime(2016,1,1)
