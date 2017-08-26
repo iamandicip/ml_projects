@@ -81,31 +81,69 @@ def normalize_data(df):
     return df / df.ix[0, :]
 
 def compute_daily_returns(data_frame):
-  daily_returns = data_frame.copy()
-  daily_returns = data_frame / data_frame.shift(1) - 1
-  daily_returns.ix[0,:] = 0
-  return daily_returns.fillna(value=0)
+  # daily_returns = data_frame.copy()
+  # daily_returns = data_frame / data_frame.shift(1) - 1
+  # daily_returns.ix[0,:] = 0
+  # return daily_returns.fillna(value=0)
+  return compute_cummulative_returns(data_frame, 1)
 
-def compute_cummulative_returns(data_frame):
+def compute_cummulative_returns(data_frame, window):
   cummulative_returns = data_frame.copy()
-  cummulative_returns = (data_frame / data_frame.ix[0,:].values) - 1
-  return cummulative_returns
+  cummulative_returns = cummulative_returns.pct_change(periods=window)
+  return cummulative_returns.fillna(value = 0)
 
 def get_rolling_mean(values, window):
     """Return rolling mean of given values, using specified window size."""
-    return values.rolling(window=window).mean()
+    rolling_mean = values.rolling(window=window).mean()
 
+    return rolling_mean
 
 def get_rolling_std(values, window):
     """Return rolling standard deviation of given values, using specified window size."""
     return values.rolling(window=window).std()
 
-
 def get_bollinger_bands(rm, rstd):
     """Return upper and lower Bollinger Bands."""
     upper_band = rm + 2 * rstd
     lower_band = rm - 2 * rstd
+
     return upper_band, lower_band
+
+def preprocess_data(symbol, window, start_date, end_date):
+    """Generate new features and labels"""
+    df = get_data_frame(symbol, start_date, end_date, dropna=True)
+
+    # the rolling mean for the window period
+    rm = get_rolling_mean(df, window)
+
+    # the Bollinger bands for the window period
+    rs = get_rolling_std(df, window)
+    l_b, u_b = get_bollinger_bands(rm, rs)
+
+    # the cumulative returns for the window period
+    c_r = compute_cummulative_returns(df, window)
+
+    # the daily returns
+    df = compute_daily_returns(df)
+
+    #rename the columns
+    rm.columns = ['Rolling mean']
+    l_b.columns = ['Lower Bollinger band']
+    u_b.columns = ['Upper Bollinger band']
+    c_r.columns = ['Periodic return']
+    df.columns = ['Daily return']
+
+    # so we can join everything into a single dataframe
+    df = df.join(c_r)
+    df = df.join(rm)
+    df = df.join(l_b)
+    df = df.join(u_b)
+
+    # calculate the label: 1 if the daily return is positive, 0 otherwise
+    df['UpDown'] = df.apply(lambda x: 1 if x['Daily return'] >= 0 else 0, axis=1)
+
+    # keep only the rows that have values for the features calculated on the window
+    return df[window:]
 
 if __name__ == '__main__':
     start = datetime.datetime(2016,1,1)
