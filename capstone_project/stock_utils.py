@@ -111,41 +111,52 @@ def get_bollinger_bands(rm, rstd):
 
     return upper_band, lower_band
 
-def preprocess_data(symbol, window, start_date, end_date):
+def get_future_price(values, window):
+    """Look ahead in the data frame to get the future price after window days"""
+    return values.shift(-window)
+
+def preprocess_data(symbol, window, look_ahead, start_date, end_date):
     """Generate new features and labels"""
     df = get_data_frame(symbol, start_date, end_date, dropna=True)
 
     # the rolling mean for the window period
-    rm = get_rolling_mean(df, window)
+    rolling_mean = get_rolling_mean(df, window)
 
     # the Bollinger bands for the window period
-    rs = get_rolling_std(df, window)
-    l_b, u_b = get_bollinger_bands(rm, rs)
+    rolling_std = get_rolling_std(df, window)
+    lower_band, upper_band = get_bollinger_bands(rolling_mean, rolling_std)
 
     # the cumulative returns for the window period
-    c_r = compute_cummulative_returns(df, window)
+    cummulative_returns = compute_cummulative_returns(df, window)
 
     # the daily returns
-    df = compute_daily_returns(df)
+    daily_returns = compute_daily_returns(df)
+
+    # future price
+    future_price = get_future_price(df, look_ahead)
 
     #rename the columns
-    rm.columns = ['Rolling mean']
-    l_b.columns = ['Lower Bollinger band']
-    u_b.columns = ['Upper Bollinger band']
-    c_r.columns = ['Periodic return']
-    df.columns = ['Daily return']
+    df.columns = ['Close']
+    rolling_mean.columns = ['Rolling mean {0}'.format(window)]
+    lower_band.columns = ['Lower Bollinger band {0}'.format(window)]
+    upper_band.columns = ['Upper Bollinger band {0}'.format(window)]
+    cummulative_returns.columns = ['Cummulative return {0}'.format(window)]
+    daily_returns.columns = ['Daily return']
+    future_price.columns = ['Future Price']
 
     # so we can join everything into a single dataframe
-    df = df.join(c_r)
-    df = df.join(rm)
-    df = df.join(l_b)
-    df = df.join(u_b)
+    df = df.join(daily_returns)
+    df = df.join(rolling_mean)
+    df = df.join(lower_band)
+    df = df.join(upper_band)
+    df = df.join(cummulative_returns)
+    df = df.join(future_price)
 
-    # calculate the label: 1 if the daily return is positive, 0 otherwise
-    df['UpDown'] = df.apply(lambda x: 1 if x['Daily return'] >= 0 else 0, axis=1)
+    # calculate the label: 1 if the return compared to the future price is positive, 0 otherwise
+    df['UpDown'] = df.apply(lambda x: 1 if x['Future Price'] - x['Close'] >= 0 else 0, axis=1)
 
     # keep only the rows that have values for the features calculated on the window
-    return df[window:]
+    return df[window:-look_ahead]
 
 def train_classifier(clf, X_train, y_train):
     ''' Fits a classifier to the training data. '''
