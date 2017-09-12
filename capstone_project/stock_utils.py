@@ -36,18 +36,18 @@ def add_symbol_to_data_frame(data_frame, symbol):
   return data_frame.join(
       get_data_frame(symbol, data_frame.index[0], data_frame.index[-1]))
 
-def get_data_frame(symbol, start_date, end_date, dropna=False):
+def get_data_frame(symbol, start_date, end_date, dropna=False, columns=['Date', 'Close'], rename_close=True):
   date_range = pd.date_range(start_date, end_date)
   data_frame = pd.DataFrame(index = date_range)
 
   symbol_data_frame = pd.read_csv(symbol_to_path(symbol),
       index_col = 'Date',
       parse_dates = True,
-      usecols = ['Date', 'Close'],
+      usecols = columns,
       na_values = ['NaN'])
 
-  symbol_data_frame = symbol_data_frame.rename(
-      columns = {'Close': symbol})
+  if rename_close:
+      symbol_data_frame = symbol_data_frame.rename(columns = {'Close': symbol})
 
   data_frame = data_frame.join(symbol_data_frame)
 
@@ -117,26 +117,27 @@ def get_future_price(values, window):
 
 def preprocess_data(symbol, window, look_ahead, start_date, end_date):
     """Generate new features and labels"""
-    df = get_data_frame(symbol, start_date, end_date, dropna=True)
+    df = get_data_frame(symbol, start_date, end_date, dropna=True, columns=['Date', 'Open', 'High', 'Low', 'Close'], rename_close=False)
+
+    df_close = pd.DataFrame(df['Close'])
 
     # the rolling mean for the window period
-    rolling_mean = get_rolling_mean(df, window)
+    rolling_mean = get_rolling_mean(df_close, window)
 
     # the Bollinger bands for the window period
-    rolling_std = get_rolling_std(df, window)
+    rolling_std = get_rolling_std(df_close, window)
     lower_band, upper_band = get_bollinger_bands(rolling_mean, rolling_std)
 
     # the cumulative returns for the window period
-    cummulative_returns = compute_cummulative_returns(df, window)
+    cummulative_returns = compute_cummulative_returns(df_close, window)
 
     # the daily returns
-    daily_returns = compute_daily_returns(df)
+    daily_returns = compute_daily_returns(df_close)
 
     # future price
-    future_price = get_future_price(df, look_ahead)
+    future_price = get_future_price(df_close, look_ahead)
 
     #rename the columns
-    df.columns = ['Close']
     rolling_mean.columns = ['Rolling mean {0}'.format(window)]
     lower_band.columns = ['Lower Bollinger band {0}'.format(window)]
     upper_band.columns = ['Upper Bollinger band {0}'.format(window)]
@@ -153,7 +154,7 @@ def preprocess_data(symbol, window, look_ahead, start_date, end_date):
     df = df.join(future_price)
 
     # calculate the label: 1 if the return compared to the future price is positive, 0 otherwise
-    df['UpDown'] = df.apply(lambda x: 1 if x['Future Price'] - x['Close'] >= 0 else 0, axis=1)
+    # df['UpDown'] = df.apply(lambda x: 1 if x['Future Price'] - x['Close'] >= 0 else 0, axis=1)
 
     # keep only the rows that have values for the features calculated on the window
     return df[window:-look_ahead]
