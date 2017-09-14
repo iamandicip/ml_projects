@@ -27,7 +27,7 @@ def download_data(tickers, start, end):
 
         print('Saving to {0}'.format(filename))
 
-    df.to_csv(filename, encoding='utf-8')
+        df.to_csv(filename, encoding='utf-8')
 
 def symbol_to_path(symbol):
   return 'data/{0}.csv'.format(symbol)
