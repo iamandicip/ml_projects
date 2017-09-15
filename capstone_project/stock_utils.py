@@ -3,6 +3,8 @@ import errno
 import pandas as pd
 import datetime
 from time import time
+import io
+import requests
 import matplotlib.pyplot as plt
 import pandas_datareader.data as web
 from sklearn.metrics import f1_score
@@ -17,8 +19,6 @@ def make_sure_path_exists(path):
 def download_data(tickers, start, end):
     source = 'google'
 
-    tickers.append('SPY')
-
     make_sure_path_exists('data')
 
     for t in tickers:
@@ -29,6 +29,55 @@ def download_data(tickers, start, end):
 
         df.to_csv(filename, encoding='utf-8')
 
+def google_stocks(tickers, start, end):
+
+    for t in tickers:
+        date_format = '%m+%d+%Y'
+        startdate = start.strftime(date_format)
+
+        if not end:
+            enddate = time.strftime(date_format)
+        else:
+            enddate = end.strftime(date_format)
+
+        stock_url = 'http://www.google.com/finance/historical?q=' + t + \
+                    '&startdate=' + startdate + '&enddate=' + enddate + '&output=csv'
+
+        raw_response = requests.get(stock_url).content
+
+        filename = 'data/{0}.csv'.format(t)
+        with open(filename, 'w') as f:
+            print('Saving to {0}'.format(filename))
+            f.write(raw_response)
+
+def get_quandl_data(tickers, start, end):
+    date_format = '%Y-%m-%d'
+    api_key = 'ez-ADzG6c-RPCxB2uzLs'
+    base_url = 'https://www.quandl.com/api/v3/datasets/WIKI/{0}/data.csv?start_date={1}&end_date={2}&api_key={3}'
+    spy_base_url = 'https://www.quandl.com/api/v3/datatables/ETFG/FUND.csv?ticker={0}&date.gt={1}&date.lt={2}&api_key={3}'
+
+    if not start:
+        start = datetime.date(2010, 1, 1)
+
+    if not end:
+        end = datetime.date.today()
+
+    for t in tickers:
+        if t == 'SPY':
+            stock_url = spy_base_url.format(t, start.strftime(date_format), end.strftime(date_format), api_key)
+        else:
+            stock_url = base_url.format(t, start.strftime(date_format), end.strftime(date_format), api_key)
+
+        print(stock_url)
+
+        raw_response = requests.get(stock_url).content
+
+        filename = 'data/{0}.csv'.format(t)
+        with open(filename, 'w') as f:
+            print('Saving to {0}'.format(filename))
+            f.write(raw_response)
+
+
 def symbol_to_path(symbol):
   return 'data/{0}.csv'.format(symbol)
 
@@ -36,7 +85,7 @@ def add_symbol_to_data_frame(data_frame, symbol):
   return data_frame.join(
       get_data_frame(symbol, data_frame.index[0], data_frame.index[-1]))
 
-def get_data_frame(symbol, start_date, end_date, dropna=False, columns=['Date', 'Close'], rename_close=True):
+def get_data_frame(symbol, start_date, end_date, dropna=False, columns=['Date', 'Adj. Close'], rename_close=True):
   date_range = pd.date_range(start_date, end_date)
   data_frame = pd.DataFrame(index = date_range)
 
@@ -47,7 +96,7 @@ def get_data_frame(symbol, start_date, end_date, dropna=False, columns=['Date', 
       na_values = ['NaN'])
 
   if rename_close:
-      symbol_data_frame = symbol_data_frame.rename(columns = {'Close': symbol})
+      symbol_data_frame = symbol_data_frame.rename(columns = {'Adj. Close': symbol})
 
   data_frame = data_frame.join(symbol_data_frame)
 
@@ -61,14 +110,14 @@ def get_data_frame(symbol, start_date, end_date, dropna=False, columns=['Date', 
 def spy_data_frame(start_date, end_date):
   return get_data_frame('SPY', start_date, end_date, dropna=True)
 
-def get_data_frame_for_symbols(symbols, start_date, end_date, include_spy=True):
-  df = spy_data_frame(start_date, end_date)
+def get_data_frame_for_symbols(symbols, start_date, end_date, include_spy=False):
+  df = None
 
   for symbol in symbols:
-    df = add_symbol_to_data_frame(df, symbol)
-
-  if(not include_spy):
-    df = df.drop('SPY', axis=1)
+    if df is None:
+        df = get_data_frame(symbol, start_date, end_date)
+    else:
+        df = add_symbol_to_data_frame(df, symbol)
 
   return df
 
@@ -117,9 +166,9 @@ def get_future_price(values, window):
 
 def preprocess_data(symbol, window, look_ahead, start_date, end_date):
     """Generate new features and labels"""
-    df = get_data_frame(symbol, start_date, end_date, dropna=True, columns=['Date', 'Open', 'High', 'Low', 'Close'], rename_close=False)
+    df = get_data_frame(symbol, start_date, end_date, dropna=True, columns=['Date', 'Adj. Open', 'Adj. High', 'Adj. Low', 'Adj. Close'], rename_close=False)
 
-    df_close = pd.DataFrame(df['Close'])
+    df_close = pd.DataFrame(df['Adj. Close'])
 
     # the rolling mean for the window period
     rolling_mean = get_rolling_mean(df_close, window)
@@ -196,8 +245,9 @@ def train_predict(clf, X_train, y_train, X_test, y_test):
     print ("F1 score for test set: {:.4f}.".format(predict_labels(clf, X_test, y_test)))
 
 if __name__ == '__main__':
-    start = datetime.datetime(2016,1,1)
+    start = datetime.datetime(2010,1,1)
     end = datetime.date.today()
 
-    tickers = ['AAPL', 'MSFT', 'GOOG', 'FB', 'AMZN']
-    download_data(tickers, start, end)
+    tickers = ['AAPL', 'MSFT', 'GOOG']
+    # download_data(tickers, start, end)
+    get_quandl_data(tickers, start, end)
