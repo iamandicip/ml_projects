@@ -7,7 +7,14 @@ import io
 import requests
 import matplotlib.pyplot as plt
 import pandas_datareader.data as web
+import pylab as pl
+import numpy as np
 from sklearn.metrics import f1_score
+from sklearn.metrics import r2_score
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import TimeSeriesSplit
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
 
 def make_sure_path_exists(path):
     try:
@@ -202,9 +209,6 @@ def preprocess_data(symbol, window, look_ahead, start_date, end_date):
     df = df.join(cummulative_returns)
     df = df.join(future_price)
 
-    # calculate the label: 1 if the return compared to the future price is positive, 0 otherwise
-    # df['UpDown'] = df.apply(lambda x: 1 if x['Future Price'] - x['Close'] >= 0 else 0, axis=1)
-
     # keep only the rows that have values for the features calculated on the window
     return df[window:-look_ahead]
 
@@ -244,6 +248,64 @@ def train_predict(clf, X_train, y_train, X_test, y_test):
     print ("F1 score for training set: {:.4f}.".format(predict_labels(clf, X_train, y_train)))
     print ("F1 score for test set: {:.4f}.".format(predict_labels(clf, X_test, y_test)))
 
+def plot_predictions(title, y, y_hat):
+    pl.title(title)
+    pl.plot(y, y_hat, 'ro')
+    pl.plot([np.amin(y), np.amax(y)],[np.amin(y_hat), np.amax(y_hat)], 'g-')
+    pl.xlabel('Real values')
+    pl.ylabel('Predicted values')
+    pl.show()
+
+def print_cross_val_accuracy(est, X, y):
+    scores = cross_val_score(est, X, y)
+    print('cross validation accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))
+
+def cross_val_splits(X, n_splits=5):
+    splits = TimeSeriesSplit(n_splits)
+    cv_splits = []
+
+    for train_index, test_index in splits.split(X):
+        cv_splits.append((train_index, test_index))
+
+    return cv_splits
+
+def calculate_predictions_for_dataset(dataset, estimators, plot_and_print=True):
+    data = dataset.drop(labels=['Future Price'], axis=1)
+    target = dataset['Future Price']
+
+    predictions = []
+
+    for reg in estimators:
+        class_name = reg.named_steps['reg'].__class__.__name__
+
+        if plot_and_print:
+            print ('\n{0}: \n'.format(class_name))
+
+        pred = reg.predict(data)
+
+        score = reg.score(data, target)
+
+        if plot_and_print:
+            print('score for validation set: {0}'.format(score))
+            plot_predictions(class_name, target, pred)
+
+        predictions.append(pred)
+
+    average_predictions = np.zeros(target.shape[0])
+
+    for p in predictions:
+        average_predictions += p
+
+    average_predictions /= len(predictions)
+
+    if plot_and_print:
+        print('\nr2 score for average predictions: {0}'.format(r2_score(target, average_predictions)))
+        print('\nmean squared error for average predictions: {0}'.format(mean_squared_error(target, average_predictions)))
+
+        plot_predictions('Average predictions', target, average_predictions)
+
+    return average_predictions
+
 if __name__ == '__main__':
     start = datetime.datetime(2010,1,1)
     end = datetime.date.today()
@@ -251,21 +313,3 @@ if __name__ == '__main__':
     tickers = ['AAPL', 'MSFT', 'GOOG']
     # download_data(tickers, start, end)
     get_quandl_data(tickers, start, end)
-    """
-    [
-     #bearish trader
-     {'name' : 'Bearish Trader', \
-      'buy_risk' : buy_risk_levels['low'], \
-      'sell_risk' : sell_risk_levels['high'], \
-      'use_signal_strength' : False,
-      'initial_funds' : initial_funds \
-     },\
-     #bullish trader
-     {'name' : 'Bullish Trader', \
-      'buy_risk' : buy_risk_levels['high'], \
-      'sell_risk' : sell_risk_levels['low'], \
-      'use_signal_strength' : True, \
-      'initial_funds' : initial_funds \
-     }\
-     ]
-     """
