@@ -175,7 +175,7 @@ def preprocess_data(symbol, window, look_ahead, start_date, end_date):
 
     # the Bollinger bands for the window period
     rolling_std = get_rolling_std(df_close, window)
-    lower_band, upper_band = get_bollinger_bands(rolling_mean, rolling_std)
+    upper_band, lower_band = get_bollinger_bands(rolling_mean, rolling_std)
 
     # the cumulative returns for the window period
     cummulative_returns = compute_cummulative_returns(df_close, window)
