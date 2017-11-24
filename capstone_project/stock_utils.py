@@ -251,3 +251,21 @@ if __name__ == '__main__':
     tickers = ['AAPL', 'MSFT', 'GOOG']
     # download_data(tickers, start, end)
     get_quandl_data(tickers, start, end)
+    """
+    [
+     #bearish trader
+     {'name' : 'Bearish Trader', \
+      'buy_risk' : buy_risk_levels['low'], \
+      'sell_risk' : sell_risk_levels['high'], \
+      'use_signal_strength' : False,
+      'initial_funds' : initial_funds \
+     },\
+     #bullish trader
+     {'name' : 'Bullish Trader', \
+      'buy_risk' : buy_risk_levels['high'], \
+      'sell_risk' : sell_risk_levels['low'], \
+      'use_signal_strength' : True, \
+      'initial_funds' : initial_funds \
+     }\
+     ]
+     """
