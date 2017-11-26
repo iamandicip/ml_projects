@@ -1,17 +1,14 @@
 class Signaller:
     def __init__(self, config):
-        self.upper_limit = config['upper_limit']
-        self.lower_limit = config['lower_limit']
-        self.rm_tol = config['rm_tol']
+        self.delta = config['delta']
 
     #Trade decisions heuristics
 
     #calculate trade signal, based on the difference between the rolling mean and the predicted price
-    def rm_sig(self, pred_price, rm):
-        perc_diff = (pred_price / rm) - 1
-        if perc_diff >= self.rm_tol:
+    def rm_sig(self, pred_price, rm, adj_close):
+        if adj_close < rm and pred_price >= rm:
             return 1
-        elif perc_diff <= -self.rm_tol:
+        elif adj_close > rm and pred_price <= rm:
             return -1
         else:
             return 0
@@ -19,9 +16,9 @@ class Signaller:
     #calculate trade signal, based on the percentage difference between the adjusted close and the predicted price
     def perc_sig(self, adj_close, pred_price):
         perc_diff = (pred_price / adj_close) - 1
-        if perc_diff >= self.upper_limit:
+        if perc_diff > self.delta:
             return 1
-        elif perc_diff <= -self.lower_limit:
+        elif perc_diff < -self.delta:
             return -1
         else:
             return 0
@@ -38,7 +35,7 @@ class Signaller:
         return 0
 
     def calculate_trade_signal(self, x):
-        x['RM Signal'] = map(self.rm_sig, x['Predicted Price'], x['Rolling mean 5'])
+        x['RM Signal'] = map(self.rm_sig, x['Predicted Price'], x['Rolling mean 5'], x['Adj. Close'])
         x['Percentage Signal'] = map(self.perc_sig, x['Adj. Close'], x['Predicted Price'])
         x['BB Signal'] = map(self.bb_sig, x['Upper Bollinger band 5'], x['Lower Bollinger band 5'], x['Adj. Close'], x['Predicted Price'])
 

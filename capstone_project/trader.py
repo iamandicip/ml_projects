@@ -13,6 +13,8 @@ class Trader:
         #number of transactions made by the trader
         self.transactions = 0
         self.profit = 0
+        self.invested = 0
+        self.stock_funds_ratio = 0.5
 
         self.debug_flag = config['debug']
 
@@ -21,6 +23,20 @@ class Trader:
     def debug(self, message):
         if self.debug_flag:
             print(message)
+
+    #enter the position by buying stock worth of half the initial funds
+    def enter_position(self, first_adj_close):
+        cash_to_spend = self.initial_funds * self.stock_funds_ratio
+        raw_stocks_to_buy, change = divmod(cash_to_spend, first_adj_close)
+        stocks_to_buy, change = divmod(raw_stocks_to_buy, self.min_stocks)
+
+        stocks_to_buy = stocks_to_buy * self.min_stocks
+
+        spent_cash = stocks_to_buy * first_adj_close * (1 + self.transaction_fees)
+        self.funds -= spent_cash
+        self.stocks = stocks_to_buy
+
+        print('{0} enters position by buying {1} stocks and has {2:.2f}$ left to invest'.format(self.name, self.stocks, self.funds))
 
     #sell everything at the end of the period
     def exit_position(self, last_adj_close):
@@ -53,6 +69,8 @@ class Trader:
             #cache the first adjusted close
             if first_adj_close == 0:
                 first_adj_close = row[1]
+                #enter position
+                self.enter_position(first_adj_close)
 
             stocks_to_trade = self.calculate_stocks_to_trade(signal)
             cash_required = adj_close * stocks_to_trade * (1 + self.transaction_fees)
@@ -64,7 +82,7 @@ class Trader:
             if buy_decision:
                 #first check if trader has enough funds to buy the stocks
                 if self.funds >= cash_required:
-                    self.debug('{0} buys {1} stocks for {2} $ on {3}'.format(self.name, stocks_to_trade, cash_required, date))
+                    self.debug('{0} buys {1} stocks for {2:.2f} $ on {3}'.format(self.name, stocks_to_trade, cash_required, date))
                     self.stocks += stocks_to_trade
                     self.funds -= cash_required
                     self.transactions += 1
@@ -75,14 +93,20 @@ class Trader:
             elif sell_decision:
                 #firs check if trader has enough stocks to sell
                 if self.stocks >= -stocks_to_trade:
-                    self.debug('{0} sells {1} stocks for {2} $ on {3}'.format(self.name, -stocks_to_trade, -cash_required, date))
+                    self.debug('{0} sells {1} stocks for {2:.2f} $ on {3}'.format(self.name, -stocks_to_trade, -cash_required, date))
                     self.stocks += stocks_to_trade
                     self.funds -= cash_required
                     self.transactions += 1
                 else:
                     self.debug('{0} doesn''t have enough stocks to sell!'.format(self.name))
 
-        self.debug('First vs Last adjusted close: {0} vs {1}'.format(first_adj_close, last_adj_close))
+        self.debug('First vs Last adjusted close: {0:.2f} vs {1:.2f}'.format(first_adj_close, last_adj_close))
+
+        print('After {0} transactions, {1} has {2} stocks and {3:.2f}$ left in funds'.format(self.transactions, self.name, self.stocks, self.funds))
+
         self.profit = self.exit_position(last_adj_close)
 
-        print('After {0} transactions, {1} exits his position with a profit of {2:.2f}%\n'.format(self.transactions, self.name, self.profit))
+        print('{1} exits his position with a profit of {2:.2f}%'.format(self.transactions, self.name, self.profit))
+
+        cumm_return = (float)((last_adj_close / first_adj_close) - 1) * 100
+        print('For the same period, this particular stock cummulative return is {0:.2f}%\n'.format(cumm_return))
