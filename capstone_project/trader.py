@@ -36,7 +36,7 @@ class Trader:
         self.funds -= spent_cash
         self.stocks = stocks_to_buy
 
-        print('{0} enters position by buying {1} stocks and has {2:.2f}$ left to invest'.format(self.name, self.stocks, self.funds))
+        print('{0} enters position by buying {1} stocks at {2:.2f}$ and has {3:.2f}$ left to invest'.format(self.name, self.stocks, first_adj_close, self.funds))
 
     #sell everything at the end of the period
     def exit_position(self, last_adj_close):
@@ -106,7 +106,7 @@ class Trader:
 
         self.profit = self.exit_position(last_adj_close)
 
-        print('{1} exits his position with a profit of {2:.2f}%'.format(self.transactions, self.name, self.profit))
+        print('{1} exits his position with a profit of {2:.2f}%\n'.format(self.transactions, self.name, self.profit))
 
-        cumm_return = (float)((last_adj_close / first_adj_close) - 1) * 100
-        print('For the same period, this particular stock cummulative return is {0:.2f}%\n'.format(cumm_return))
+        # cumm_return = (float)((last_adj_close / first_adj_close) - 1) * 100
+        # print('For the same period, this particular stock cummulative return is {0:.2f}%\n'.format(cumm_return))
