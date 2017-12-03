@@ -18,6 +18,7 @@ from sklearn.model_selection import cross_val_score
 
 def make_sure_path_exists(path):
     try:
+        print('Creating folder {0}'.format(path))
         os.makedirs(path)
     except OSError as exception:
         if exception.errno != errno.EEXIST:
@@ -68,6 +69,8 @@ def get_quandl_data(tickers, start, end):
 
     if not end:
         end = datetime.date.today()
+
+    make_sure_path_exists('data')
 
     for t in tickers:
         if t == 'SPY':
@@ -310,6 +313,6 @@ if __name__ == '__main__':
     start = datetime.datetime(2010,1,1)
     end = datetime.date.today()
 
-    tickers = ['XOM']
+    tickers = ['AAPL', 'XOM']
     # download_data(tickers, start, end)
     get_quandl_data(tickers, start, end)
