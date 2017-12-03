@@ -117,9 +117,6 @@ def get_data_frame(symbol, start_date, end_date, dropna=False, columns=['Date', 
   else:
     return data_frame
 
-def spy_data_frame(start_date, end_date):
-  return get_data_frame('SPY', start_date, end_date, dropna=True)
-
 def get_data_frame_for_symbols(symbols, start_date, end_date, include_spy=False):
   df = None
 
@@ -142,10 +139,6 @@ def normalize_data(df):
     return df / df.ix[0, :]
 
 def compute_daily_returns(data_frame):
-  # daily_returns = data_frame.copy()
-  # daily_returns = data_frame / data_frame.shift(1) - 1
-  # daily_returns.ix[0,:] = 0
-  # return daily_returns.fillna(value=0)
   return compute_cummulative_returns(data_frame, 1)
 
 def compute_cummulative_returns(data_frame, window):
@@ -214,42 +207,6 @@ def preprocess_data(symbol, window, look_ahead, start_date, end_date):
 
     # keep only the rows that have values for the features calculated on the window
     return df[window:-look_ahead]
-
-def train_classifier(clf, X_train, y_train):
-    ''' Fits a classifier to the training data. '''
-
-    # Start the clock, train the classifier, then stop the clock
-    start = time()
-    clf.fit(X_train, y_train)
-    end = time()
-
-    # Print the results
-    print ("Trained model in {:.4f} seconds".format(end - start))
-
-def predict_labels(clf, features, target):
-    ''' Makes predictions using a fit classifier based on F1 score. '''
-
-    # Start the clock, make predictions, then stop the clock
-    start = time()
-    y_pred = clf.predict(features)
-    end = time()
-
-    # Print and return results
-    print ("Made predictions in {:.4f} seconds.".format(end - start))
-    return f1_score(target.values, y_pred, pos_label=1)
-
-def train_predict(clf, X_train, y_train, X_test, y_test):
-    ''' Train and predict using a classifer based on F1 score. '''
-
-    # Indicate the classifier and the training set size
-    print ("Training a {0} using a training set size of {1}...".format(clf.__class__.__name__, len(X_train)))
-
-    # Train the classifier
-    train_classifier(clf, X_train, y_train)
-
-    # Print the results of prediction for both training and testing
-    print ("F1 score for training set: {:.4f}.".format(predict_labels(clf, X_train, y_train)))
-    print ("F1 score for test set: {:.4f}.".format(predict_labels(clf, X_test, y_test)))
 
 def plot_predictions(title, y, y_hat):
     pl.title(title)
