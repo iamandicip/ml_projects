@@ -1,15 +1,14 @@
 import os
 import errno
-import pandas as pd
 import datetime
-from time import time
 import io
 import requests
-import matplotlib.pyplot as plt
-import pandas_datareader.data as web
-import pylab as pl
+
 import numpy as np
-from sklearn.metrics import f1_score
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from time import time
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import TimeSeriesSplit
@@ -23,40 +22,6 @@ def make_sure_path_exists(path):
     except OSError as exception:
         if exception.errno != errno.EEXIST:
             raise
-
-def download_data(tickers, start, end):
-    source = 'google'
-
-    make_sure_path_exists('data')
-
-    for t in tickers:
-        df = web.DataReader(t, source, start, end)
-        filename = 'data/{0}.csv'.format(t)
-
-        print('Saving to {0}'.format(filename))
-
-        df.to_csv(filename, encoding='utf-8')
-
-def google_stocks(tickers, start, end):
-
-    for t in tickers:
-        date_format = '%m+%d+%Y'
-        startdate = start.strftime(date_format)
-
-        if not end:
-            enddate = time.strftime(date_format)
-        else:
-            enddate = end.strftime(date_format)
-
-        stock_url = 'http://www.google.com/finance/historical?q=' + t + \
-                    '&startdate=' + startdate + '&enddate=' + enddate + '&output=csv'
-
-        raw_response = requests.get(stock_url).content
-
-        filename = 'data/{0}.csv'.format(t)
-        with open(filename, 'w') as f:
-            print('Saving to {0}'.format(filename))
-            f.write(raw_response)
 
 def get_quandl_data(tickers, start, end):
     date_format = '%Y-%m-%d'
@@ -209,12 +174,12 @@ def preprocess_data(symbol, window, look_ahead, start_date, end_date):
     return df[window:-look_ahead]
 
 def plot_predictions(title, y, y_hat):
-    pl.title(title)
-    pl.plot(y, y_hat, 'ro')
-    pl.plot([np.amin(y), np.amax(y)],[np.amin(y_hat), np.amax(y_hat)], 'g-')
-    pl.xlabel('Real values')
-    pl.ylabel('Predicted values')
-    pl.show()
+    plt.title(title)
+    plt.plot(y, y_hat, 'ro')
+    plt.plot([np.amin(y), np.amax(y)],[np.amin(y_hat), np.amax(y_hat)], 'g-')
+    plt.xlabel('Real values')
+    plt.ylabel('Predicted values')
+    plt.show()
 
 def print_cross_val_accuracy(est, X, y):
     scores = cross_val_score(est, X, y)
