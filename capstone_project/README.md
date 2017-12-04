@@ -1,3 +1,7 @@
+## Project description
+This project is my capstone project for the Udacity Machine Learning Nanodegree.
+It's about forecasting stock market prices using machine learning algorithms.
+
 ## Files and folders
 
 ### Code

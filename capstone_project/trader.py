@@ -9,7 +9,7 @@ class Trader:
         self.min_stocks = 100
         self.stocks = 0
         #transaction fees in percentage
-        self.transaction_fees = 0
+        self.transaction_fees = 0.001
         #number of transactions made by the trader
         self.transactions = 0
         self.profit = 0
@@ -53,6 +53,7 @@ class Trader:
             if self.use_signal_strength:
                 traded_stock = signal * self.min_stocks
             else:
+                #return negative stock for a sell order
                 traded_stock = trade_direction(signal) * self.min_stocks
 
         return traded_stock
@@ -73,7 +74,9 @@ class Trader:
                 self.enter_position(first_adj_close)
 
             stocks_to_trade = self.calculate_stocks_to_trade(signal)
-            cash_required = adj_close * stocks_to_trade * (1 + self.transaction_fees)
+
+            cash_spent = adj_close * abs(stocks_to_trade) * (1 + self.transaction_fees)
+            cash_received = adj_close * abs(stocks_to_trade) * (1 - self.transaction_fees)
 
             buy_decision = stocks_to_trade > 0
             sell_decision = stocks_to_trade < 0
@@ -81,26 +84,26 @@ class Trader:
             #buy decision
             if buy_decision:
                 #first check if trader has enough funds to buy the stocks
-                if self.funds >= cash_required:
-                    self.debug('{0} buys {1} stocks for {2:.2f} $ on {3}'.format(self.name, stocks_to_trade, cash_required, date))
+                if self.funds >= cash_spent:
+                    self.debug('{0} buys {1} stocks for {2:.2f} $ on {3}'.format(self.name, stocks_to_trade, cash_spent, date))
                     self.stocks += stocks_to_trade
-                    self.funds -= cash_required
+                    self.funds -= cash_spent
                     self.transactions += 1
-                else:
-                    self.debug('{0} doesn''t have enough funds to buy the stocks!'.format(self.name))
+                # else:
+                    # self.debug('{0} doesn''t have enough funds to buy the stocks!'.format(self.name))
 
             #sell decision
             elif sell_decision:
                 #firs check if trader has enough stocks to sell
                 if self.stocks >= -stocks_to_trade:
-                    self.debug('{0} sells {1} stocks for {2:.2f} $ on {3}'.format(self.name, -stocks_to_trade, -cash_required, date))
+                    self.debug('{0} sells {1} stocks for {2:.2f} $ on {3}'.format(self.name, -stocks_to_trade, cash_received, date))
                     self.stocks += stocks_to_trade
-                    self.funds -= cash_required
+                    self.funds += cash_received
                     self.transactions += 1
-                else:
-                    self.debug('{0} doesn''t have enough stocks to sell!'.format(self.name))
+                # else:
+                    # self.debug('{0} doesn''t have enough stocks to sell!'.format(self.name))
 
-        self.debug('First vs Last adjusted close: {0:.2f} vs {1:.2f}'.format(first_adj_close, last_adj_close))
+        # self.debug('First vs Last adjusted close: {0:.2f} vs {1:.2f}'.format(first_adj_close, last_adj_close))
 
         print('After {0} transactions, {1} has {2} stocks and {3:.2f}$ left in funds'.format(self.transactions, self.name, self.stocks, self.funds))
 

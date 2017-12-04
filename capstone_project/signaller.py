@@ -34,11 +34,31 @@ class Signaller:
 
         return 0
 
+    def past_rm_sig(self, rm, adj_close):
+        if adj_close < rm:
+            return 1
+        elif adj_close > rm:
+            return -1
+        else:
+            return 0
+
+    def past_bb_sig(self, ubb, lbb, adj_close):
+        if adj_close > ubb:
+            return -1
+        elif adj_close < lbb:
+            return 1
+        else:
+            return 0
+
     def calculate_trade_signal(self, x):
         x['RM Signal'] = map(self.rm_sig, x['Predicted Price'], x['Rolling mean 5'], x['Adj. Close'])
         x['Percentage Signal'] = map(self.perc_sig, x['Adj. Close'], x['Predicted Price'])
         x['BB Signal'] = map(self.bb_sig, x['Upper Bollinger band 5'], x['Lower Bollinger band 5'], x['Adj. Close'], x['Predicted Price'])
 
         x['Trade Signal'] = x['RM Signal'] + x['Percentage Signal'] + x['BB Signal']
+
+        x['Current RM Signal'] = map(self.past_rm_sig, x['Rolling mean 5'], x['Adj. Close'])
+        x['Current BB Signal'] = map(self.past_bb_sig, x['Upper Bollinger band 5'], x['Lower Bollinger band 5'], x['Adj. Close'])
+        x['Current Signal'] = x['Current RM Signal'] + x['Current BB Signal']
 
         return x
