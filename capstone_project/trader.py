@@ -40,8 +40,12 @@ class Trader:
 
     #sell everything at the end of the period
     def exit_position(self, last_adj_close):
-        self.funds = self.funds + self.stocks * last_adj_close * (1 - self.transaction_fees)
-        return ((self.funds - self.initial_funds) / self.initial_funds) * 100
+        if self.transactions > 0:
+            self.funds = self.funds + self.stocks * last_adj_close * (1 - self.transaction_fees)
+            return ((self.funds - self.initial_funds) / self.initial_funds) * 100
+        else:
+            #if the trader didn't make any trade decisions, then the profit from the initial stocks is irrelevant
+            return 0
 
     def calculate_stocks_to_trade(self, signal):
         traded_stock = 0
