@@ -37,8 +37,10 @@ class TradingAlgorithm:
     def trade_stock_make_profit(self, config, stock_df, use_predictions):
         if use_predictions:
             trade_df = stock_df[['Adj. Close', 'Trade Signal']]
+            config['name'] += ' with predictions'
         else:
             trade_df = stock_df[['Adj. Close', 'Current Signal']]
+            config['name'] += ' no predictions'
 
         trader = Trader(config)
         trader.trade(trade_df)
@@ -58,15 +60,8 @@ class TradingAlgorithm:
             pred_profits = []
 
             for config in self.trader_configurations:
-                trader_name = config['name']
-
-                config['name'] = trader_name + ' no predictions'
-                no_pred_profits.append(self.trade_stock_make_profit(config, stock_df, False))
-
-                config['name'] = trader_name + ' with predictions'
-                pred_profits.append(self.trade_stock_make_profit(config, stock_df, True))
-
-                config['name'] = trader_name
+                no_pred_profits.append(self.trade_stock_make_profit(config.copy(), stock_df, False))
+                pred_profits.append(self.trade_stock_make_profit(config.copy(), stock_df, True))
 
             profits_array = np.array([no_pred_profits, pred_profits]).T
             profits_df = pd.DataFrame(profits_array, columns=['Normal Traders', 'Prediction Traders'])
