@@ -235,6 +235,6 @@ if __name__ == '__main__':
     start = datetime.datetime(2010,1,1)
     end = datetime.date.today()
 
-    tickers = ['AAPL', 'XOM']
+    tickers = ['AAPL', 'XOM', 'JNJ']
     # download_data(tickers, start, end)
     get_quandl_data(tickers, start, end)
