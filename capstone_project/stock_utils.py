@@ -130,9 +130,13 @@ def get_bollinger_bands(rm, rstd):
 
 def get_future_price(values, window):
     """Look ahead in the data frame to get the future price after window days"""
-    return values.shift(-window)
+    return get_shifted_price(values, -window)
 
-def preprocess_data(symbol, window, look_ahead, start_date, end_date):
+def get_shifted_price(values, shift_days):
+    """Look ahead in the data frame to get the future price after window days"""
+    return values.shift(shift_days)
+
+def preprocess_data(symbol, window, look_ahead, start_date, end_date, look_behind=3):
     """Generate new features and labels"""
     df = get_data_frame(symbol, start_date, end_date, dropna=True, columns=['Date', 'Adj. Open', 'Adj. High', 'Adj. Low', 'Adj. Close'], rename_close=False)
 
@@ -154,6 +158,9 @@ def preprocess_data(symbol, window, look_ahead, start_date, end_date):
     # future price
     future_price = get_future_price(df_close, look_ahead)
 
+    #past price
+    past_price = get_shifted_price(df_close, look_behind)
+
     #rename the columns
     rolling_mean.columns = ['Rolling mean {0}'.format(window)]
     lower_band.columns = ['Lower Bollinger band {0}'.format(window)]
@@ -161,6 +168,7 @@ def preprocess_data(symbol, window, look_ahead, start_date, end_date):
     cummulative_returns.columns = ['Cummulative return {0}'.format(window)]
     daily_returns.columns = ['Daily return']
     future_price.columns = ['Future Price']
+    past_price.columns = ['Past Close {0}'.format(look_behind)]
 
     # so we can join everything into a single dataframe
     df = df.join(daily_returns)
@@ -169,6 +177,7 @@ def preprocess_data(symbol, window, look_ahead, start_date, end_date):
     df = df.join(upper_band)
     df = df.join(cummulative_returns)
     df = df.join(future_price)
+    df = df.join(past_price)
 
     # keep only the rows that have values for the features calculated on the window
     return df[window:-look_ahead]

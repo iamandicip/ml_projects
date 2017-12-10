@@ -35,11 +35,11 @@ class Signaller:
         return 0
 
     def past_rm_sig(self, rm, adj_close):
-        perc_diff = (rm / adj_close) - 1
+        perc_diff = (adj_close / rm) - 1
         if perc_diff > self.delta:
-            return 1
-        elif perc_diff < -self.delta:
             return -1
+        elif perc_diff < -self.delta:
+            return 1
         else:
             return 0
 
@@ -53,17 +53,27 @@ class Signaller:
         else:
             return 0
 
+    def past_adj_close_diff(self, adj_close, past_adj_close):
+        perc_diff = (adj_close / past_adj_close) - 1
+        if perc_diff >= self.delta:
+            return -1
+        elif perc_diff <= -self.delta:
+            return 1
+        else:
+            return 0
+
     def calculate_trade_signal(self, x):
         #first calculate the signals that use the current data only
         x['Current RM Signal'] = map(self.past_rm_sig, x['Rolling mean 5'], x['Adj. Close'])
         x['Current BB Signal'] = map(self.past_bb_sig, x['Upper Bollinger band 5'], x['Lower Bollinger band 5'], x['Adj. Close'])
-        x['Current Signal'] = x['Current RM Signal'] + x['Current BB Signal']
+        x['Past Adj Close Signal'] = map(self.past_adj_close_diff, x['Adj. Close'], x['Past Close 3'])
+        x['Current Signal'] = x['Current RM Signal'] + x['Current BB Signal'] + x['Past Adj Close Signal']
 
         #now calculate the signals that make use of the predictions too
         x['RM Signal'] = map(self.rm_sig, x['Predicted Price'], x['Rolling mean 5'], x['Adj. Close'])
         x['Percentage Signal'] = map(self.perc_sig, x['Adj. Close'], x['Predicted Price'])
         x['BB Signal'] = map(self.bb_sig, x['Upper Bollinger band 5'], x['Lower Bollinger band 5'], x['Adj. Close'], x['Predicted Price'])
 
-        x['Trade Signal'] = x['RM Signal'] + x['Percentage Signal'] + x['BB Signal']
-        
+        x['Trade Signal'] = x['RM Signal'] + x['Percentage Signal'] + x['BB Signal'] + x['Current Signal']
+
         return x
